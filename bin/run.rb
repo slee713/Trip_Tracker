@@ -66,13 +66,16 @@ if user_input.to_i == 1
     start = gets.chomp
     puts "What was your end date?"
     user_end_date = gets.chomp
-    Trip.create(
+    user_trip = Trip.create(
         user_id: user.id, 
         name: trip_name, 
         transportation: transportation,
         start_date: Date.parse(start),
         end_date: Date.parse(user_end_date)
         )
+    puts "Have you visited any of these Locations"
+    list_of_locations
+    #resume 7/28/20
 elsif user_input.to_i == 2
     trips = Trip.all.find_all {|trip| trip.user_id = user.id}
     trips

@@ -135,6 +135,11 @@ end
 def delete_account
 end
 
+def list_of_locations
+    Location.all.each_with_index {|location, index| 
+    puts "#{index+1}. #{location.name}, #{location.state_or_country}"
+}
+
 
 
 
