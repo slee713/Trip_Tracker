@@ -34,47 +34,12 @@ while true
 end
 
 
-
-
-puts "
-███╗   ███╗ █████╗ ██╗███╗   ██╗    ███╗   ███╗███████╗███╗   ██╗██╗   ██╗
-████╗ ████║██╔══██╗██║████╗  ██║    ████╗ ████║██╔════╝████╗  ██║██║   ██║
-██╔████╔██║███████║██║██╔██╗ ██║    ██╔████╔██║█████╗  ██╔██╗ ██║██║   ██║
-██║╚██╔╝██║██╔══██║██║██║╚██╗██║    ██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║
-██║ ╚═╝ ██║██║  ██║██║██║ ╚████║    ██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝
-╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝    ╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ 
-                                                                          
-"
-puts "WELCOME #{user.name}"
-puts "1. Enter a new Trip"
-puts "2. Find all of you trips and update any trip" # list of trips we can 
-#have another menu with 1. View Stops for a trip 
-#2. Update trip. 
-#3. Delete Trip 
-puts "3. Find all of the states/countries you have visited"
-puts "4. Delete Account"
-puts "Please enter a number (1-4)"
+main_menu(user)
+main_menu_response
 
 user_input = gets.chomp
 if user_input.to_i == 1
-    puts "Enter a new Trip"
-    puts "What is the name of your trip?"
-    trip_name = gets.chomp
-    puts "What was your method of transportation?"
-    transportation = gets.chomp
-    puts "What was your start date?"
-    start = gets.chomp
-    puts "What was your end date?"
-    user_end_date = gets.chomp
-    user_trip = Trip.create(
-        user_id: user.id, 
-        name: trip_name, 
-        transportation: transportation,
-        start_date: Date.parse(start),
-        end_date: Date.parse(user_end_date)
-        )
-    puts "Have you visited any of these Locations"
-    list_of_locations
+    
     #resume 7/28/20
 elsif user_input.to_i == 2
     trips = Trip.all.find_all {|trip| trip.user_id = user.id}
@@ -87,5 +52,5 @@ elsif user_input.to_i == 4
 end
 
 
-main_menu_response
+
 
