@@ -28,44 +28,36 @@ end
 
 def greeting
     puts "Welcome to Travel Tracker! Do you have an account? (Y/N)"
+    while true
+        user_response = gets.chomp
+        if user_response == 'Y'
+            puts "Please enter username"
+            user_input = gets.chomp.downcase
+            $user = User.find_by username: user_input
+            break
+        elsif user_response == 'N'
+            create_account
+            break
+        else 
+            puts "Invalid response. Do you have an account? (Y/N)"
+        end
+    end
 end
 
-# def get_user(user_input)
-#     User.find_by username: user_input
-# end
-
-# def get_user
-#     while true
-#         user_response = gets.chomp
-#         if user_response == 'Y'
-#             puts "Please enter username"
-#             user_input = gets.chomp
-#             # user = get_user(user_input)
-#             User.find_by username: user_input
-#             break
-#         elsif user_response == 'N'
-#             create_account
-#             break
-#         else 
-#             puts "Invalid response. Do you have an account? (Y/N)"
-#         end
-#     end
-# end
-
 def create_account
-    # puts "Let's make an account!"
-    # puts "Please enter your username"
-    # while true
-    #     user_username = gets.chomp
-    #     if User.all.map {|user| user.username}.include?(user_username)
-    #         puts "That username is already taken. Please enter new username."
-    #     else 
-    #         puts "What is your name?"
-    #         user_name = gets.chomp
-    #         User.create(name: user_name, username: user_username)
-    #     break
-    #     end
-    # end
+    puts "Let's make an account!"
+        puts "Please enter your username"
+        while true
+            user_username = gets.chomp
+            if User.all.map {|user| user.username}.include?(user_username)
+                puts "That username is already taken. Please enter new username."
+            else 
+                puts "What is your name?"
+                user_name = gets.chomp
+                $user = User.create(name: user_name, username: user_username)
+                break
+            end
+        end
 end
 
 
@@ -88,20 +80,23 @@ def main_menu(user)
     #3. Delete Trip 
     puts "3. Find all of the states/countries you have visited"
     puts "4. Delete Account"
-    puts "Please enter a number (1-4)"
-end
+    puts "5. Exit"
+    puts "Please select from the options above using numbers (1-4) as your input:"
 
-def main_menu_response(user)
     user_input = gets.chomp
-    if user_input.to_i == 1
+    
+    case user_input
+    when "5"
+        exit
+    when "1"
         new_trip = enter_new_trip(user)
         create_locations(new_trip)
-    elsif user_input.to_i == 2
+    when "2"
         trips = find_trips(user)
         list_trips(trips)
-    elsif user_input.to_i == 3
+    when "3"
         find_all_states_and_countries(user)
-    elsif user_input.to_i == 4
+    when "4"
         delete_account(user)
     end
 end
