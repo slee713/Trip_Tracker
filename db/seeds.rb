@@ -83,3 +83,62 @@
 #     city_name: "Seattle",
 #     state_or_country: "Washington"
 # )
+
+#Stops
+
+# steven1_stop_1 = Stop.create(
+#     trip_id: 1,
+#     location_id: 18,
+#     rating: 8,
+#     description: "I stopped by Philadelphia to eat some cheesesteaks and to get a break from driving"
+# )
+
+# steven1_stop_2 = Stop.create(
+#     trip_id: 1,
+#     location_id: 19,
+#     rating: 9,
+#     description: "We picked up my brother and spent the day in Boston"
+# )
+# steven1_stop_3 = Stop.create(
+#     trip_id: 1,
+#     location_id: 20,
+#     rating: 10,
+#     description: "Spent a couple days in portland. Had the best oysters and lobster roll"
+# )
+
+# roan_bascoe_stop = Stop.create(
+#     trip_id: 2,
+#     location_id: 21,
+#     rating: 7,
+#     description: "It was magical but pricey"
+# )
+
+# steven_m_stop1 = Stop.create(
+#     trip_id: 3,
+#     location_id:22,
+#     description: "Stay off the 504"
+# )
+
+# steven_m_stop2 = Stop.create(
+#     trip_id: 3,
+#     location_id:23,
+#     description: "I love skyline drive"
+# )
+
+# steven_m_stop3 = Stop.create(
+#     trip_id: 3,
+#     location_id:24,
+#     description: "Visited the Golden Gate Bridge"
+# )
+
+# steven4_stop1 = Stop.create(
+#     trip_id:4,
+#     location_id: 25,
+#     description: "Went hiking for 7 days around Mount Rainier"
+# )
+
+# steven4_stop1 = Stop.create(
+#     trip_id:4,
+#     location_id: 26,
+#     description: "Spent 2 days in Seattle sight seeing and eating great food"
+# )
