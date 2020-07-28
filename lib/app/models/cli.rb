@@ -29,26 +29,57 @@ def greeting
     puts "Welcome to Travel Tracker! Do you have an account? (Y/N)"
 end
 
-def ask_for_username(user_response)
-    if user_response == 'Y'
-        puts "Please enter username"
-        user_input = gets.chomp
-        user = User.find_by username: user_input
-        puts "Welcome #{user.name}!"
-    elsif user_response == 'N'
-        puts "create account"
+def get_user(user_input)
+    User.find_by username: user_input
+end
+
+def ask_for_username
+    while true
+        user_response = gets.chomp
+        if user_response == 'Y'
+            puts "Please enter username"
+            user_input = gets.chomp
+            user = get_user(user_input)
+            puts "Welcome #{user.name}!"
+            break
+        elsif user_response == 'N'
+            create_account
+            break
+        else 
+            puts "Invalid response. Do you have an account? (Y/N)"
+        end
     end
 end
 
-def find_user
-end
-
 def create_account
+    puts "Let's make an account!"
+    puts "Please enter your username"
+    while true
+        user_username = gets.chomp
+        if User.all.map {|user| user.username}.include?(user_username)
+            puts "That username is already taken. Please enter new username."
+        else 
+            puts "What is your name?"
+            user_name = gets.chomp
+            user = User.create(name: user_name, username: user_username)
+            puts "You have successfully made an account, #{user.name}"
+        break
+        end
+    end
 end
 
 
 
 def main_menu
+    puts "
+    ███╗   ███╗ █████╗ ██╗███╗   ██╗    ███╗   ███╗███████╗███╗   ██╗██╗   ██╗
+    ████╗ ████║██╔══██╗██║████╗  ██║    ████╗ ████║██╔════╝████╗  ██║██║   ██║
+    ██╔████╔██║███████║██║██╔██╗ ██║    ██╔████╔██║█████╗  ██╔██╗ ██║██║   ██║
+    ██║╚██╔╝██║██╔══██║██║██║╚██╗██║    ██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║
+    ██║ ╚═╝ ██║██║  ██║██║██║ ╚████║    ██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝
+    ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝    ╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ 
+                                                                              
+    "
     puts "1. Enter a new Trip"
     puts "2. Find all of you trips and update any trip" # list of trips we can 
     #have another menu with 1. View Stops for a trip 
@@ -56,9 +87,30 @@ def main_menu
     #3. Delete Trip 
     puts "3. Find all of the states/countries you have visited"
     puts "4. Delete Account"
+    puts "Please enter a number (1-4)"
 end
 
+def main_menu_response
+    user_input = gets.chomp
+    if user_input.to_i == 1
+        enter_new_trip
+    elsif user_input.to_i == 2
+        find_trips
+    elsif user_input.to_i == 3
+        find_all_states_and_countries
+    elsif user_input.to_i == 4
+        delete_account
+    end
+end
+
+
+
+
 def enter_new_trip
+    # puts "Enter a new Trip"
+    # puts "What is the name of your trip"
+    # trip_name = gets.chomp
+    
 end
 
 def find_trips
