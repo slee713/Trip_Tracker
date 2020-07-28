@@ -28,11 +28,58 @@
 #     end_date: Date.parse("August 22, 2019")
 # )
 
-vacation_to_seattle = Trip.create(
-    name: "Wonderland 2019",
-    user_id: 1,
-    transportation: "fly",
-    start_date: Date.parse("August 10, 2019"),
-    end_date: Date.parse("August 19, 2019")
-)
+# vacation_to_seattle = Trip.create(
+#     name: "Wonderland 2019",
+#     user_id: 1,
+#     transportation: "fly",
+#     start_date: Date.parse("August 10, 2019"),
+#     end_date: Date.parse("August 19, 2019")
+# )
 
+#Locations
+# Location.destroy_all
+
+# philadelphia = Location.create(
+#     city_name: "Philadelphia", 
+#     state_or_country: "Pennsylvania"
+#     )
+
+# boston = Location.create(
+#     city_name: "Boston",
+#     state_or_country: "Massachusetts"
+#     )
+
+# portland_maine = Location.create(
+#     city_name: "Portland",
+#     state_or_country: "Maine"
+# )
+
+# orlando = Location.create(
+#     city_name: "Orlando",
+#     state_or_country: "Florida"
+# )
+
+# los_angeles = Location.create(
+#     city_name: "Los Angeles",
+#     state_or_country: "California"
+# )
+
+# oakland = Location.create(
+#     city_name: "Oakland",
+#     state_or_country: "California"
+# )
+
+# san_francisco = Location.create(
+#     city_name: "San Francisco",
+#     state_or_country: "California"
+# )
+
+# mt_rainier = Location.create(
+#     city_name: "Mount Rainier",
+#     state_or_country: "Washington"
+# )
+
+# seattle = Location.create(
+#     city_name: "Seattle",
+#     state_or_country: "Washington"
+# )
