@@ -159,10 +159,11 @@ def create_spots(trip, location)
 end
 
 def find_trips(user)
-    Trip.all.find_all {|trip| trip.user_id = user.id}
+    Trip.all.find_all {|trip| trip.user_id == user.id}
 end
 
 def list_trips(trips)
+    puts "My Trips:"
     trips.each_with_index {|trip, index| 
     puts "#{index +1}. #{trip.name} - #{trip.start_date}"
 }
