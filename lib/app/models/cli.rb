@@ -1,3 +1,4 @@
+
 def display
     puts "
     ████████╗██████╗  █████╗ ██╗   ██╗███████╗██╗         ████████╗██████╗  █████╗  ██████╗██╗  ██╗███████╗██████╗ 
@@ -29,43 +30,42 @@ def greeting
     puts "Welcome to Travel Tracker! Do you have an account? (Y/N)"
 end
 
-def get_user(user_input)
-    User.find_by username: user_input
-end
+# def get_user(user_input)
+#     User.find_by username: user_input
+# end
 
-def ask_for_username
-    while true
-        user_response = gets.chomp
-        if user_response == 'Y'
-            puts "Please enter username"
-            user_input = gets.chomp
-            user = get_user(user_input)
-            puts "Welcome #{user.name}!"
-            break
-        elsif user_response == 'N'
-            create_account
-            break
-        else 
-            puts "Invalid response. Do you have an account? (Y/N)"
-        end
-    end
-end
+# def get_user
+#     while true
+#         user_response = gets.chomp
+#         if user_response == 'Y'
+#             puts "Please enter username"
+#             user_input = gets.chomp
+#             # user = get_user(user_input)
+#             User.find_by username: user_input
+#             break
+#         elsif user_response == 'N'
+#             create_account
+#             break
+#         else 
+#             puts "Invalid response. Do you have an account? (Y/N)"
+#         end
+#     end
+# end
 
 def create_account
-    puts "Let's make an account!"
-    puts "Please enter your username"
-    while true
-        user_username = gets.chomp
-        if User.all.map {|user| user.username}.include?(user_username)
-            puts "That username is already taken. Please enter new username."
-        else 
-            puts "What is your name?"
-            user_name = gets.chomp
-            user = User.create(name: user_name, username: user_username)
-            puts "You have successfully made an account, #{user.name}"
-        break
-        end
-    end
+    # puts "Let's make an account!"
+    # puts "Please enter your username"
+    # while true
+    #     user_username = gets.chomp
+    #     if User.all.map {|user| user.username}.include?(user_username)
+    #         puts "That username is already taken. Please enter new username."
+    #     else 
+    #         puts "What is your name?"
+    #         user_name = gets.chomp
+    #         User.create(name: user_name, username: user_username)
+    #     break
+    #     end
+    # end
 end
 
 
@@ -80,6 +80,7 @@ def main_menu
     ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝    ╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ 
                                                                               
     "
+    puts "WELCOME #{user.name}"
     puts "1. Enter a new Trip"
     puts "2. Find all of you trips and update any trip" # list of trips we can 
     #have another menu with 1. View Stops for a trip 
@@ -107,22 +108,22 @@ end
 
 
 def enter_new_trip
-    puts "Enter a new Trip"
-    puts "What is the name of your trip?"
-    trip_name = gets.chomp
-    puts "What was your method of transportation?"
-    transportation = gets.chomp
-    puts "What was your start date?"
-    start = gets.chomp
-    puts "What was your end date?"
-    user_end_date = gets.chomp
-    Trip.create(
-        user_id: "?", 
-        name: trip_name, 
-        transportation: transportation,
-        start_date: Date.parse(start),
-        end_date: Date.parse(user_end_date)
-        )
+    # puts "Enter a new Trip"
+    # puts "What is the name of your trip?"
+    # trip_name = gets.chomp
+    # puts "What was your method of transportation?"
+    # transportation = gets.chomp
+    # puts "What was your start date?"
+    # start = gets.chomp
+    # puts "What was your end date?"
+    # user_end_date = gets.chomp
+    # Trip.create(
+    #     user_id: "?" #user.id, 
+    #     name: trip_name, 
+    #     transportation: transportation,
+    #     start_date: Date.parse(start),
+    #     end_date: Date.parse(user_end_date)
+    #     )
 end
 
 def find_trips
