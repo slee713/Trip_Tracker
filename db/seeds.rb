@@ -116,29 +116,34 @@
 # steven_m_stop1 = Stop.create(
 #     trip_id: 3,
 #     location_id:22,
+#     rating: 8,
 #     description: "Stay off the 504"
 # )
 
 # steven_m_stop2 = Stop.create(
 #     trip_id: 3,
 #     location_id:23,
+#     rating: 9,
 #     description: "I love skyline drive"
 # )
 
 # steven_m_stop3 = Stop.create(
 #     trip_id: 3,
 #     location_id:24,
+#     rating: 6,
 #     description: "Visited the Golden Gate Bridge"
 # )
 
 # steven4_stop1 = Stop.create(
 #     trip_id:4,
 #     location_id: 25,
+#     rating: 10,
 #     description: "Went hiking for 7 days around Mount Rainier"
 # )
 
 # steven4_stop1 = Stop.create(
 #     trip_id:4,
 #     location_id: 26,
+#     rating: 9
 #     description: "Spent 2 days in Seattle sight seeing and eating great food"
 # )
