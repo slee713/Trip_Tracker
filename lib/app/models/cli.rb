@@ -94,7 +94,7 @@ end
 def main_menu_response(user)
     user_input = gets.chomp
     if user_input.to_i == 1
-        enter_new_trip(user)
+        new_trip = enter_new_trip(user)
     elsif user_input.to_i == 2
         trips = find_trips(user)
         list_trips(trips)
@@ -123,6 +123,16 @@ def enter_new_trip(user)
         end_date: Date.parse(user_end_date)
         )
 end
+
+
+
+def create_spots(trip, location, rating, description)
+    Spot.create(
+        trip_id: trip.id,
+        location_id: location.id,
+        rating: rating,
+        description: description
+    )
 
 def find_trips(user)
     trips = Trip.all.find_all {|trip| trip.user_id = user.id}
