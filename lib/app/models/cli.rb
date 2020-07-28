@@ -95,6 +95,7 @@ def main_menu_response(user)
     user_input = gets.chomp
     if user_input.to_i == 1
         new_trip = enter_new_trip(user)
+        create_locations(new_trip)
     elsif user_input.to_i == 2
         trips = find_trips(user)
         list_trips(trips)
@@ -111,9 +112,9 @@ def enter_new_trip(user)
     trip_name = gets.chomp
     puts "What was your method of transportation?"
     transportation = gets.chomp
-    puts "What was your start date?"
+    puts "What was your start date? (YYYY/MM/DD)"
     start = gets.chomp
-    puts "What was your end date?"
+    puts "What was your end date? (YYYY/MM/DD)"
     user_end_date = gets.chomp
     Trip.create(
         user_id: user.id, 
@@ -124,18 +125,46 @@ def enter_new_trip(user)
         )
 end
 
+def create_locations(new_trip)
+    while true
+        puts "Which city did you visit on this trip?"
+        location_name = gets.chomp
+        puts "Which state or country was it in?"
+        location_statecountry = gets.chomp
+        all_location_name = Location.all.map {|location| location.city_name.downcase}
+        if !all_location_name.include?(location_name.downcase)
+            location = Location.create(
+                city_name: location_name,
+                state_or_country: location_statecountry
+                )
+            create_spots(new_trip)
+            puts "Did you visit another spot on this trip? (Y/N)"
+            response = gets.chomp
+                if response.downcase == "N".downcase
+                    break
+                end            
+        elsif all_location_name.include?(location_name.downcase)
+            location = Location.find_by city_name: location_name 
+            create_spots(new_trip, location)
+        end
+    end
+end
 
-
-def create_spots(trip, location, rating, description)
-    Spot.create(
+def create_spots(trip, location)
+    puts "How would you rate this stop? (1-10)?"
+    user_rating = gets.chomp
+    puts "Please write a description for this stop."
+    user_description = gets.chomp
+    Stop.create(
         trip_id: trip.id,
         location_id: location.id,
-        rating: rating,
-        description: description
+        rating: user_rating,
+        description: user_description
     )
+end
 
 def find_trips(user)
-    trips = Trip.all.find_all {|trip| trip.user_id = user.id}
+    Trip.all.find_all {|trip| trip.user_id = user.id}
 end
 
 def list_trips(trips)
