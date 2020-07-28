@@ -107,10 +107,22 @@ end
 
 
 def enter_new_trip
-    # puts "Enter a new Trip"
-    # puts "What is the name of your trip"
-    # trip_name = gets.chomp
-    
+    puts "Enter a new Trip"
+    puts "What is the name of your trip?"
+    trip_name = gets.chomp
+    puts "What was your method of transportation?"
+    transportation = gets.chomp
+    puts "What was your start date?"
+    start = gets.chomp
+    puts "What was your end date?"
+    user_end_date = gets.chomp
+    Trip.create(
+        user_id: "?", 
+        name: trip_name, 
+        transportation: transportation,
+        start_date: Date.parse(start),
+        end_date: Date.parse(user_end_date)
+        )
 end
 
 def find_trips
