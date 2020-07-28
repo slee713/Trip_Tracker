@@ -96,7 +96,8 @@ def main_menu_response(user)
     if user_input.to_i == 1
         enter_new_trip(user)
     elsif user_input.to_i == 2
-        find_trips(user)
+        trips = find_trips(user)
+        list_trips(trips)
     elsif user_input.to_i == 3
         find_all_states_and_countries(user)
     elsif user_input.to_i == 4
@@ -125,7 +126,12 @@ end
 
 def find_trips(user)
     trips = Trip.all.find_all {|trip| trip.user_id = user.id}
-    trips.each_with_index {|trip, index| puts "#{index +1}. #{trip.name} - #{trip.start_date}"}
+end
+
+def list_trips(trips)
+    trips.each_with_index {|trip, index| 
+    puts "#{index +1}. #{trip.name} - #{trip.start_date}"
+}
 end
 
 def find_all_states_and_countries(user)
