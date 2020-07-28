@@ -35,21 +35,9 @@ end
 
 
 main_menu(user)
-main_menu_response
+main_menu_response(user)
 
-user_input = gets.chomp
-if user_input.to_i == 1
-    
-    #resume 7/28/20
-elsif user_input.to_i == 2
-    trips = Trip.all.find_all {|trip| trip.user_id = user.id}
-    trips
-    binding.pry
-elsif user_input.to_i == 3
-    
-elsif user_input.to_i == 4
-    delete_account
-end
+
 
 
 

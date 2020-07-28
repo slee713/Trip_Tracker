@@ -114,20 +114,18 @@ def enter_new_trip(user)
     start = gets.chomp
     puts "What was your end date?"
     user_end_date = gets.chomp
-    user_trip = Trip.create(
+    Trip.create(
         user_id: user.id, 
         name: trip_name, 
         transportation: transportation,
         start_date: Date.parse(start),
         end_date: Date.parse(user_end_date)
         )
-    puts "Have you visited any of these Locations"
-    list_of_locations
 end
 
 def find_trips(user)
     trips = Trip.all.find_all {|trip| trip.user_id = user.id}
-    trips
+    trips.each_with_index {|trip, index| puts "#{index +1}. #{trip.name} - #{trip.start_date}"}
 end
 
 def find_all_states_and_countries(user)
