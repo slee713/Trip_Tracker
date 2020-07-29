@@ -122,62 +122,10 @@ def enter_new_trip(user)
     create_locations(trip)
 end
 
-def create_locations(new_trip)
-        puts "Which city did you visit on this trip?"
-            location_name = gets.chomp
-        puts "Which state or country was it in?"
-            location_statecountry = gets.chomp
-            all_location_name = Location.all.map {|location| location.city_name}
-        if !all_location_name.include?(capitalize(location_name))
-            location = Location.create(
-                city_name: capitalize(location_name),
-                state_or_country: capitalize(location_statecountry)
-                )
-            create_spots(new_trip, location)
-            another_spot?(new_trip)
-        elsif all_location_name.include?(capitalize(location_name))
-            location = (Location.find_by city_name: capitalize(location_name))
-            create_spots(new_trip, location)
-            another_spot?(new_trip)
-        end
-end
-
-def capitalize(string)
-    array = string.split(" ")
-    array.map {|word| word.capitalize}.join(" ")
-end
-
-def create_spots(trip, location) # doesnt work
-    puts "How would you rate this stop? (1-10)?"
-    user_rating = gets.chomp
-    puts "Please write a description for this stop."
-    user_description = gets.chomp
-    Stop.create(
-        trip_id: trip.id,
-        location_id: location.id,
-        rating: user_rating,
-        description: user_description
-    )
-end
-
-def another_spot?(new_trip)
-    puts "Did you visit another spot on this trip? (Y/N)"
-    response = gets.chomp.downcase
-    if response == "Y".downcase
-        create_locations(new_trip)
-    elsif response == 'N'.downcase
-        main_menu($user)
-    else
-        puts "Invalid Response. Please enter 'y' or 'n'."
-        another_spot?(new_trip)
-    end  
-end
-
-
 def find_all_states_and_countries(user)
     locations = user.find_all_locations
     list_of_locations(locations.uniq)
-    main_menu(user)
+    go_back_to_menu?(user)
 end
 
 def delete_account(user)
@@ -196,13 +144,79 @@ def delete_account(user)
         end
 end
 
+#helper methods
+def capitalize(string)
+    array = string.split(" ")
+    array.map {|word| word.capitalize}.join(" ")
+end
+#helper methods for enter_new_trip
+def create_locations(new_trip)
+    puts "Which city did you visit on this trip?"
+        location_name = gets.chomp
+    puts "Which state or country was it in?"
+        location_statecountry = gets.chomp
+        all_location_name = Location.all.map {|location| location.city_name}
+    if !all_location_name.include?(capitalize(location_name))
+        location = Location.create(
+            city_name: capitalize(location_name),
+            state_or_country: capitalize(location_statecountry)
+            )
+        create_spots(new_trip, location)
+        another_spot?(new_trip)
+    elsif all_location_name.include?(capitalize(location_name))
+        location = (Location.find_by city_name: capitalize(location_name))
+        create_spots(new_trip, location)
+        another_spot?(new_trip)
+    end
+end
+
+def create_spots(trip, location) # doesnt work
+puts "How would you rate this stop? (1-10)?"
+user_rating = gets.chomp
+puts "Please write a description for this stop."
+user_description = gets.chomp
+Stop.create(
+    trip_id: trip.id,
+    location_id: location.id,
+    rating: user_rating,
+    description: user_description
+)
+end
+
+
+def another_spot?(new_trip)
+    puts "Did you visit another spot on this trip? (Y/N)"
+    response = gets.chomp.downcase
+    if response == "Y".downcase
+        create_locations(new_trip)
+    elsif response == 'N'.downcase
+        go_back_to_menu?($user)
+    else
+        puts "Invalid Response. Please enter 'y' or 'n'."
+        another_spot?(new_trip)
+    end  
+end
+
+#helper method for find all states or countries
 def list_of_locations(location)
     puts "Here are all of the locations you have visited!"
     location.each_with_index {|location, index| 
     puts "#{index+1}. #{location.city_name}, #{location.state_or_country}"
     }
-    puts "Would you like to edit or delete a trip?"
 end
+
+def go_back_to_menu?(user)
+    puts "Do you want to go back to the main menu? (Y/N)?"
+    while true
+        response = gets.chomp
+        if response == 'Y'
+            main_menu(user)
+        elsif response == 'N'
+            exit
+        end
+    end
+end
+
 
 
 
