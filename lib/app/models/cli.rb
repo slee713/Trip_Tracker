@@ -246,8 +246,11 @@ def delete_account(user)
     puts "Do you want to delete this account. (Y/N)"
     user_input = gets.chomp.downcase
     if user_input == 'y'
-        Trip.where(user_id: user.id)
-        Stop.where(trip_id: nil)
+        trips = Trip.where(user_id: user.id)
+        trips.each do |trip|
+             Stop.where(trip_id: trip.id).delete_all
+        end
+        Trip.where(user_id: user.id).delete_all
         User.delete(user.id)
         puts "Account Deleted"
         puts "Thank you for using Trip Tracker!"
