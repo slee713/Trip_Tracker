@@ -49,7 +49,7 @@ def create_account
         puts "Please enter your username"
         while true
             user_username = gets.chomp.downcase
-            if User.all.map {|user| user.username.downcase}.include?(user_username)
+            if User.exists?(:username => user_username)
                 puts "That username is already taken. Please enter new username."
             else 
                 puts "What is your name?"
@@ -62,7 +62,7 @@ end
 
 
 
-def main_menu(user)
+def main_menu(user)#$user
     puts "
     ███╗   ███╗ █████╗ ██╗███╗   ██╗    ███╗   ███╗███████╗███╗   ██╗██╗   ██╗
     ████╗ ████║██╔══██╗██║████╗  ██║    ████╗ ████║██╔════╝████╗  ██║██║   ██║
@@ -89,14 +89,17 @@ def main_menu(user)
     when "5"
         exit
     when "1"
-        new_trip = enter_new_trip(user)
-        create_locations(new_trip)
+        enter_new_trip(user)
     when "2"
         user.list_trips
     when "3"
         find_all_states_and_countries(user)
+        main_menu(user)
     when "4"
         delete_account(user)
+    else 
+        puts "Invalid entry."
+        main_menu(user)
     end
 end
 
@@ -110,17 +113,17 @@ def enter_new_trip(user)
         start = gets.chomp
     puts "What was your end date? (YYYY/MM/DD)"
         user_end_date = gets.chomp
-    Trip.create(
+    trip = Trip.create(
         user_id: user.id, 
         name: trip_name, 
         transportation: transportation,
         start_date: Date.parse(start),
         end_date: Date.parse(user_end_date)
         )
+    create_locations(trip)
 end
 
 def create_locations(new_trip)
-    while true
         puts "Which city did you visit on this trip?"
             location_name = gets.chomp.downcase
         puts "Which state or country was it in?"
@@ -132,24 +135,12 @@ def create_locations(new_trip)
                 state_or_country: location_statecountry
                 )
             create_spots(new_trip, location)
-            # puts "Did you visit another spot on this trip? (Y/N)"
-            response = another_spot?
-            if response == "N".downcase
-                break
-            elsif response == "Y".downcase
-                true
-            end  
+            another_spot?(new_trip)
         elsif all_location_name.include?(location_name.downcase)
-            location = Location.find_by city_name: location_name 
+            location = Location.find_by city_name: location_name
             create_spots(new_trip, location)
-            response = another_spot?
-            if response == "N".downcase
-                break
-            elsif response == "Y".downcase
-                true
-            end
+            another_spot?(new_trip)
         end
-    end
 end
 
 def create_spots(trip, location) # doesnt work
@@ -165,9 +156,17 @@ def create_spots(trip, location) # doesnt work
     )
 end
 
-def another_spot?
+def another_spot?(new_trip)
     puts "Did you visit another spot on this trip? (Y/N)"
-    gets.chomp.downcase
+    response = gets.chomp.downcase
+    if response == "Y".downcase
+        create_locations(new_trip)
+    elsif response == 'N'.downcase
+        main_menu($user)
+    else
+        puts "Invalid Response. Please enter 'y' or 'n'."
+        another_spot?(new_trip)
+    end  
 end
 
 
@@ -177,13 +176,19 @@ def find_all_states_and_countries(user)
 end
 
 def delete_account(user)
-    # puts "Please confirm that you would like to delete your account. (Y/N)"
-    #     user_input = gets.chomp.downcase
-    #     if user_input = 'y'
-    #         User.destroy(user.id)
-            
-    #         puts "Account Deleted"
-    #     end
+    puts "Do you want to delete this account. (Y/N)"
+        user_input = gets.chomp.downcase
+        if user_input == 'y'
+            User.all.delete(user)
+            puts "Account Deleted"
+            puts "Thank you for using Trip Tracker!"
+            exit
+        elsif user_input == 'n'
+            main_menu(user)
+        else
+            puts "Invalid input. Please type 'y' or 'n'. "
+            delete_account(user)
+        end
 end
 
 def list_of_locations(location)
