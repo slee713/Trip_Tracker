@@ -92,6 +92,10 @@ def main_menu(user)#$user
         enter_new_trip(user)
     when "2"
         user.list_trips
+        if user.find_trips == []
+            puts "You have no trips! Please enter a new trip!"
+            enter_new_trip(user)
+        end
         update_or_delete_trip(user.find_trips)
     when "3"
         find_all_states_and_countries(user)
@@ -111,35 +115,51 @@ def enter_new_trip(user)
         transportation = gets.chomp
     puts "What was your start date? (YYYY/MM/DD)"
         start = gets.chomp
-    puts "What was your end date? (YYYY/MM/DD)"
-        user_end_date = gets.chomp
+        start_date = Date.parse(start)
+    puts "How many days did you spend on this trip?"
+        duration = gets.chomp.to_i
+        user_end_date = start_date + duration
     trip = Trip.create(
         user_id: user.id, 
         name: trip_name, 
         transportation: transportation,
-        start_date: Date.parse(start),
-        end_date: Date.parse(user_end_date)
+        start_date: start_date,
+        end_date: user_end_date
         )
     create_locations(trip)
 end
 #trips is an array of a user's trips
 def update_or_delete_trip(trips)
-    puts "Please select the following options: (1-3) "
-    puts "1. Update a Trip"
-    puts "2. Delete a Trip and all of its Stops"
-    puts "3. Go back to the main menu"
-    user_input = gets.chomp
-    if user_input == '1'
-        trip = choose_trip(trips)
-        update_trip(trip)
-    elsif user_input == '2'
-        ###
-    elsif user_input == '3'
-        main_menu($user)
-    else
-        puts "Invalid Response. Please enter a number (1-3)"
-        update_or_delete_trip(trips)
+    while true
+        puts "Please select the following options: (1-3) "
+        puts "1. View all stops for a trip"
+        puts "2. Update a Trip"
+        puts "3. Delete a Trip and all of its Stops"
+        puts "4. Go back to the main menu"
+        user_input = gets.chomp
+        if user_input == '1'
+            trip = choose_trip(trips)
+            trip.stop_information
+        elsif user_input == '2'
+            trip = choose_trip(trips)
+            update_trip(trip)
+        elsif user_input == '3'
+            delete_trip_stops(trips)
+        elsif user_input == '4'
+            main_menu($user)
+        else
+            puts "Invalid Response. Please enter a number (1-3)"
+            update_or_delete_trip(trips)
+        end
     end
+end
+
+def delete_trip_stops(trips)
+    trip = choose_trip(trips)
+    Stop.where(trip_id: trip.id).delete_all 
+    Trip.delete(trip.id)
+    puts "Trip Deleted!"
+    main_menu($user)
 end
 
 def choose_trip(trips_array)
@@ -153,10 +173,9 @@ def update_trip(trip)
         puts "What would you like to edit? Please enter a number (1-5):"
         puts "1. Trip Name"
         puts "2. Trip Transportation Method"
-        puts "3. Trip Start_date"
-        puts "4. Trip End_date"
-        puts "5. Stop information for this Trip"
-        puts "6. Go Back to Main Menu"
+        puts "3. Trip Date Information"
+        puts "4. Stop information for this Trip"
+        puts "5. Go Back to Main Menu"
         user_input = gets.chomp
         if user_input == '1'
             puts "Please enter a new name"
@@ -169,21 +188,14 @@ def update_trip(trip)
         elsif user_input == '3' 
             puts "Please enter start date (YYYY/MM/DD)"
             new_date = gets.chomp
-            trip.update_column(:start_date, Date.parse(new_date))
+            date = Date.parse(new_date)
+            puts "How many days did you spend on this trip?"
+            duration = gets.chomp.to_i
+            trip.update_column(:start_date, date)
+            trip.update_column(:end_date, date+duration)
         elsif user_input == '4'
-            puts "Please enter end date (YYYY/MM/DD)"
-            while true
-                new_date = gets.chomp.to_i
-                if (Date.parse(new_date) - trip.start_date) < 0
-                    puts "Invalid Response. End Date is before current start date"
-                elsif (Date.parse(new_date) - trip.start_date) > 0
-                    trip.update_column(:end_date, Date.parse(new_date))
-                break
-                end
-            end
-        elsif user_input == '5'
             stop_information(trip)
-        elsif user_input == '6'
+        elsif user_input == '5'
             main_menu($user)
         else
             puts "Invalid Response. Please enter a number from 1-5."
@@ -191,21 +203,34 @@ def update_trip(trip)
     end
 end
 
-#1.Philadelphia
-#2.Boston
-#3.Portland
-#4.Add a stop
+
 def stop_information(trip)
     stops = trip.stops
+    puts "Which stop would you like to edit?"
     trip.list_stops_by_location_name
     puts "#{stops.length+1}. Add a stop"
     puts "Please choose a option: (1 - #{stops.length+1})"
     user_input = gets.chomp
     stop = stops[user_input.to_i-1]
     if user_input.to_i <= stops.length && user_input.to_i>0
-        puts "What would you like to change?"
-        puts "1. Change Rating"
-        puts "2. Description"
+        while true
+            puts "What would you like to change?"
+            puts "1. Change Rating"
+            puts "2. Description"
+            puts "3. Go back to the main menu"
+            user_choice = gets.chomp 
+            if user_choice == '1'
+                puts "Please enter a new rating (1-10) for this stop:"
+                change_rating = gets.chomp.to_i
+                stop.update_column(:rating, change_rating)
+            elsif user_choice == '2'
+                puts "Please enter a new description for this stop:"
+                change_desc = gets.chomp
+                stop.update_column(:description, change_desc)
+            elsif user_choice == '3'
+                main_menu($user)
+            end
+        end
     elsif user_input.to_i == stops.length+1
         create_locations(trip)
     end
@@ -221,7 +246,9 @@ def delete_account(user)
     puts "Do you want to delete this account. (Y/N)"
     user_input = gets.chomp.downcase
     if user_input == 'y'
-        User.all.delete(user)
+        Trip.where(user_id: user.id)
+        Stop.where(trip_id: nil)
+        User.delete(user.id)
         puts "Account Deleted"
         puts "Thank you for using Trip Tracker!"
         exit
@@ -298,10 +325,10 @@ end
 def go_back_to_menu?(user)
     puts "Do you want to go back to the main menu? (Y/N)?"
     while true
-        response = gets.chomp
-        if response == 'Y'
+        response = gets.chomp.downcase
+        if response == 'Y'.downcase
             main_menu(user)
-        elsif response == 'N'
+        elsif response == 'N'.downcase
             exit
         end
     end
