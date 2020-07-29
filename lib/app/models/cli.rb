@@ -9,33 +9,33 @@ def display
        ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚══════╝       ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
                                                                                                                    
     "
-#     puts "
-#                                                          |
-#                                                    --====|====--
-#                                                          |  
+    # puts << 'EOF'
+    #                                                      |
+    #                                                --====|====--
+    #                                                      |  
 
-#                                                     .-""""""-. 
-#                                                   .'__________'. 
-#                                                   /_/_|__|__|_\_\
-#                                                  ;'-._       _.-';
-#                             ,--------------------|    `-. .-'    |--------------------,
-#                              ``""--..__    ___   ;       '       ;   ___    __..--""``
-#                                       `""-// \\.._\             /_..// \\-"`
-#                                           \\_//    '._       _.'    \\_//
-#                                            `"`        ``---``        `"`
-# '"
+    #                                                  .-"""""-. 
+    #                                                .'_________'. 
+    #                                               /_/_|__|__|_\_\
+    #                                              ;'-._       _.-';
+    #                         ,--------------------|    `-. .-'    |--------------------,
+    #                          ``""--..__    ___   ;       '       ;   ___    __..--""``
+    #                                     `-// \\.._\             /_..// \\-"`
+    #                                       \\_//    '._       _.'    \\_//
+    #                                        `"`        ``---``        `"`
+    # EOF>>
 end
 
 def greeting
     puts "Welcome to Travel Tracker! Do you have an account? (Y/N)"
     while true
-        user_response = gets.chomp
-        if user_response == 'Y'
+        user_response = gets.chomp.downcase
+        if user_response == 'Y'.downcase
             puts "Please enter username"
             user_input = gets.chomp.downcase
             $user = User.find_by username: user_input
             break
-        elsif user_response == 'N'
+        elsif user_response == 'N'.downcase
             create_account
             break
         else 
@@ -48,8 +48,8 @@ def create_account
     puts "Let's make an account!"
         puts "Please enter your username"
         while true
-            user_username = gets.chomp
-            if User.all.map {|user| user.username}.include?(user_username)
+            user_username = gets.chomp.downcase
+            if User.all.map {|user| user.username.downcase}.include?(user_username)
                 puts "That username is already taken. Please enter new username."
             else 
                 puts "What is your name?"
@@ -123,9 +123,9 @@ end
 def create_locations(new_trip)
     while true
         puts "Which city did you visit on this trip?"
-        location_name = gets.chomp
+        location_name = gets.chomp.downcase
         puts "Which state or country was it in?"
-        location_statecountry = gets.chomp
+        location_statecountry = gets.chomp.downcase
         all_location_name = Location.all.map {|location| location.city_name.downcase}
         if !all_location_name.include?(location_name.downcase)
             location = Location.create(
@@ -134,13 +134,22 @@ def create_locations(new_trip)
                 )
             create_spots(new_trip)
             puts "Did you visit another spot on this trip? (Y/N)"
-            response = gets.chomp
-                if response.downcase == "N".downcase
-                    break
-                end            
+            response = gets.chomp.downcase
+            if response == "N".downcase
+                break
+            elsif response == "Y".downcase
+                true
+            end  
         elsif all_location_name.include?(location_name.downcase)
             location = Location.find_by city_name: location_name 
             create_spots(new_trip, location)
+            puts "Did you visit another spot on this trip? (Y/N)"
+            response = gets.chomp.downcase
+            if response == "N".downcase
+                break
+            elsif response == "Y".downcase
+                true
+            end
         end
     end
 end
@@ -157,6 +166,7 @@ def create_spots(trip, location)
         description: user_description
     )
 end
+
 
 def find_trips(user)
     Trip.all.find_all {|trip| trip.user_id == user.id}
