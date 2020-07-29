@@ -131,13 +131,13 @@ def create_locations(new_trip)
             all_location_name = Location.all.map {|location| location.city_name.downcase}
         if !all_location_name.include?(location_name.downcase)
             location = Location.create(
-                city_name: location_name,
-                state_or_country: location_statecountry
+                city_name: location_name.capitalize,
+                state_or_country: location_statecountry.capitalize
                 )
             create_spots(new_trip, location)
             another_spot?(new_trip)
-        elsif all_location_name.include?(location_name.downcase)
-            location = Location.find_by city_name: location_name
+        elsif all_location_name.include?(location_name)
+            location = (Location.find_by city_name: location_name.capitalize)
             create_spots(new_trip, location)
             another_spot?(new_trip)
         end
@@ -184,7 +184,7 @@ def delete_account(user)
             puts "Thank you for using Trip Tracker!"
             exit
         elsif user_input == 'n'
-            main_menu(user)
+            main_menu($user)
         else
             puts "Invalid input. Please type 'y' or 'n'. "
             delete_account(user)
@@ -195,7 +195,8 @@ def list_of_locations(location)
     puts "Here are all of the locations you have visited!"
     location.each_with_index {|location, index| 
     puts "#{index+1}. #{location.city_name}, #{location.state_or_country}"
-}
+    }
+    puts "Would you like to edit or delete a trip?"
 end
 
 
