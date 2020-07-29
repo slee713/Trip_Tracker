@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
         locations = []
         trips = find_trips
         trips.each do |trip|
-        Stop.where(trip_id: trip.id).each do |stop|
+            Stop.where(trip_id: trip.id).each do |stop|  
             locations << Location.find(stop.location_id)
             end
         end
@@ -22,5 +22,6 @@ class User < ActiveRecord::Base
         puts "#{index +1}. #{trip.name} - #{trip.start_date}"
     }
     end
-    
+
 end
+

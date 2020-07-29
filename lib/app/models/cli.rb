@@ -72,15 +72,15 @@ def main_menu(user)#$user
     ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝    ╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ 
                                                                               
     "
-    puts "WELCOME #{user.name}"
-    puts "1. Enter a new Trip"
+    puts "WELCOME #{user.name.upcase}"
+    puts "1. Enter a new Trip" #working
     puts "2. Find all of you trips and update any trip" # list of trips we can 
     #have another menu with 1. View Stops for a trip 
     #2. Update trip. 
     #3. Delete Trip 
-    puts "3. Find all of the states/countries you have visited"
-    puts "4. Delete Account"
-    puts "5. Exit"
+    puts "3. Find all of the states/countries you have visited" #working
+    puts "4. Delete Account" #working
+    puts "5. Exit" #working
     puts "Please select from the options above using numbers (1-5) as your input:"
 
     user_input = gets.chomp
@@ -92,6 +92,7 @@ def main_menu(user)#$user
         enter_new_trip(user)
     when "2"
         user.list_trips
+        update_or_delete_trip(user.find_trips)
     when "3"
         find_all_states_and_countries(user)
     when "4"
@@ -121,6 +122,94 @@ def enter_new_trip(user)
         )
     create_locations(trip)
 end
+#trips is an array of a user's trips
+def update_or_delete_trip(trips)
+    puts "Please select the following options: (1-3) "
+    puts "1. Update a Trip"
+    puts "2. Delete a Trip and all of its Stops"
+    puts "3. Go back to the main menu"
+    user_input = gets.chomp
+    if user_input == '1'
+        trip = choose_trip(trips)
+        update_trip(trip)
+    elsif user_input == '2'
+        ###
+    elsif user_input == '3'
+        main_menu($user)
+    else
+        puts "Invalid Response. Please enter a number (1-3)"
+        update_or_delete_trip(trips)
+    end
+end
+
+def choose_trip(trips_array)
+    puts "Please choose a trip: (1 - #{trips_array.length})"
+    user_input = gets.chomp
+    trips_array[user_input.to_i-1]
+end
+
+def update_trip(trip)
+    while true
+        puts "What would you like to edit? Please enter a number (1-5):"
+        puts "1. Trip Name"
+        puts "2. Trip Transportation Method"
+        puts "3. Trip Start_date"
+        puts "4. Trip End_date"
+        puts "5. Stop information for this Trip"
+        puts "6. Go Back to Main Menu"
+        user_input = gets.chomp
+        if user_input == '1'
+            puts "Please enter a new name"
+            new_name = gets.chomp
+            trip.update_column(:name, new_name)
+        elsif user_input == '2'
+            puts "Please enter a new trasnportation method"
+            new_method = gets.chomp
+            trip.update_column(:transportation, new_method)
+        elsif user_input == '3' 
+            puts "Please enter start date (YYYY/MM/DD)"
+            new_date = gets.chomp
+            trip.update_column(:start_date, Date.parse(new_date))
+        elsif user_input == '4'
+            puts "Please enter end date (YYYY/MM/DD)"
+            while true
+                new_date = gets.chomp.to_i
+                if (Date.parse(new_date) - trip.start_date) < 0
+                    puts "Invalid Response. End Date is before current start date"
+                elsif (Date.parse(new_date) - trip.start_date) > 0
+                    trip.update_column(:end_date, Date.parse(new_date))
+                break
+                end
+            end
+        elsif user_input == '5'
+            stop_information(trip)
+        elsif user_input == '6'
+            main_menu($user)
+        else
+            puts "Invalid Response. Please enter a number from 1-5."
+        end
+    end
+end
+
+#1.Philadelphia
+#2.Boston
+#3.Portland
+#4.Add a stop
+def stop_information(trip)
+    stops = trip.stops
+    trip.list_stops_by_location_name
+    puts "#{stops.length+1}. Add a stop"
+    puts "Please choose a option: (1 - #{stops.length+1})"
+    user_input = gets.chomp
+    stop = stops[user_input.to_i-1]
+    if user_input.to_i <= stops.length && user_input.to_i>0
+        puts "What would you like to change?"
+        puts "1. Change Rating"
+        puts "2. Description"
+    elsif user_input.to_i == stops.length+1
+        create_locations(trip)
+    end
+end
 
 def find_all_states_and_countries(user)
     locations = user.find_all_locations
@@ -130,18 +219,18 @@ end
 
 def delete_account(user)
     puts "Do you want to delete this account. (Y/N)"
-        user_input = gets.chomp.downcase
-        if user_input == 'y'
-            User.all.delete(user)
-            puts "Account Deleted"
-            puts "Thank you for using Trip Tracker!"
-            exit
-        elsif user_input == 'n'
-            main_menu($user)
-        else
-            puts "Invalid input. Please type 'y' or 'n'. "
-            delete_account(user)
-        end
+    user_input = gets.chomp.downcase
+    if user_input == 'y'
+        User.all.delete(user)
+        puts "Account Deleted"
+        puts "Thank you for using Trip Tracker!"
+        exit
+    elsif user_input == 'n'
+        main_menu($user)
+    else
+        puts "Invalid input. Please type 'y' or 'n'. "
+        delete_account(user)
+    end
 end
 
 #helper methods
@@ -149,6 +238,7 @@ def capitalize(string)
     array = string.split(" ")
     array.map {|word| word.capitalize}.join(" ")
 end
+
 #helper methods for enter_new_trip
 def create_locations(new_trip)
     puts "Which city did you visit on this trip?"
@@ -170,17 +260,17 @@ def create_locations(new_trip)
     end
 end
 
-def create_spots(trip, location) # doesnt work
-puts "How would you rate this stop? (1-10)?"
-user_rating = gets.chomp
-puts "Please write a description for this stop."
-user_description = gets.chomp
-Stop.create(
-    trip_id: trip.id,
-    location_id: location.id,
-    rating: user_rating,
-    description: user_description
-)
+def create_spots(trip, location) 
+    puts "How would you rate this stop? (1-10)?"
+    user_rating = gets.chomp
+    puts "Please write a description for this stop."
+    user_description = gets.chomp
+    Stop.create(
+        trip_id: trip.id,
+        location_id: location.id,
+        rating: user_rating,
+        description: user_description
+        )
 end
 
 
