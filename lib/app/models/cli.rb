@@ -94,7 +94,6 @@ def main_menu(user)#$user
         user.list_trips
     when "3"
         find_all_states_and_countries(user)
-        main_menu(user)
     when "4"
         delete_account(user)
     else 
@@ -125,22 +124,27 @@ end
 
 def create_locations(new_trip)
         puts "Which city did you visit on this trip?"
-            location_name = gets.chomp.downcase
+            location_name = gets.chomp
         puts "Which state or country was it in?"
-            location_statecountry = gets.chomp.downcase
-            all_location_name = Location.all.map {|location| location.city_name.downcase}
-        if !all_location_name.include?(location_name.downcase)
+            location_statecountry = gets.chomp
+            all_location_name = Location.all.map {|location| location.city_name}
+        if !all_location_name.include?(capitalize(location_name))
             location = Location.create(
-                city_name: location_name.capitalize,
-                state_or_country: location_statecountry.capitalize
+                city_name: capitalize(location_name),
+                state_or_country: capitalize(location_statecountry)
                 )
             create_spots(new_trip, location)
             another_spot?(new_trip)
-        elsif all_location_name.include?(location_name)
-            location = (Location.find_by city_name: location_name.capitalize)
+        elsif all_location_name.include?(capitalize(location_name))
+            location = (Location.find_by city_name: capitalize(location_name))
             create_spots(new_trip, location)
             another_spot?(new_trip)
         end
+end
+
+def capitalize(string)
+    array = string.split(" ")
+    array.map {|word| word.capitalize}.join(" ")
 end
 
 def create_spots(trip, location) # doesnt work
@@ -173,6 +177,7 @@ end
 def find_all_states_and_countries(user)
     locations = user.find_all_locations
     list_of_locations(locations.uniq)
+    main_menu(user)
 end
 
 def delete_account(user)
