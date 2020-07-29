@@ -92,8 +92,7 @@ def main_menu(user)
         new_trip = enter_new_trip(user)
         create_locations(new_trip)
     when "2"
-        trips = find_trips(user)
-        list_trips(trips)
+        user.list_trips
     when "3"
         find_all_states_and_countries(user)
     when "4"
@@ -172,27 +171,8 @@ def another_spot?
 end
 
 
-
-def find_trips(user)
-    Trip.all.find_all {|trip| trip.user_id == user.id}
-end
-
-def list_trips(trips)
-    puts "My Trips:"
-    trips.each_with_index {|trip, index| 
-    puts "#{index +1}. #{trip.name} - #{trip.start_date}"
-}
-end
-
 def find_all_states_and_countries(user)
-    locations = []
-    trips = find_trips(user)
-    trips.each do |trip|
-        Stop.where(trip_id: trip.id).each do |stop|
-            locations << Location.find(stop.location_id)
-            
-        end
-    end
+    locations = user.find_all_locations
     list_of_locations(locations.uniq)
 end
 
@@ -212,6 +192,7 @@ def list_of_locations(location)
     puts "#{index+1}. #{location.city_name}, #{location.state_or_country}"
 }
 end
+
 
 
 
