@@ -134,15 +134,21 @@ def update_or_delete_trip(trips)
         puts "5. Go Back to the Main Menu"
         user_input = gets.chomp
         if user_input == '1'
+            $user.list_trips
             trip=choose_trip(trips)
+            puts "Here is the trip information for #{trip.name}"
             trip.view_information
         elsif user_input == '2'
+            $user.list_trips
             trip = choose_trip(trips)
+            puts "Here are all the stops for your trip #{trip.name}"
             trip.stop_information
         elsif user_input == '3'
+            $user.list_trips
             trip = choose_trip(trips)
             update_trip(trip)
         elsif user_input == '4'
+            $user.list_trips
             delete_trip_stops(trips)
         elsif user_input == '5'
             main_menu($user)
