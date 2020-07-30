@@ -285,16 +285,9 @@ def create_locations(new_trip)
         location_name = gets.chomp
     puts "Which state or country was it in?"
         location_statecountry = gets.chomp
-        all_location_name = Location.all.map {|location| location.city_name}
+        # all_location_name = Location.all.map {|location| location.city_name}
         a_location = Location.find_by city_name: capitalize(location_name)
-    if a_location && !a_location.state_or_country == capitalize(location_statecountry)
-        location = Location.create(
-            city_name: capitalize(location_name),
-            state_or_country: capitalize(location_statecountry)
-            )
-        create_spots(new_trip, location)
-        another_spot?(new_trip)
-    elsif a_location && a_location.state_or_country == capitalize(location_name)
+    if Location.find_by(city_name: capitalize(location_name), state_or_country: capitalize(location_statecountry))
         location = (
             Location.find_by( 
             city_name: capitalize(location_name), 
