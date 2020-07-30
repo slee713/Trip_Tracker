@@ -10,7 +10,8 @@ Trip Tracker is a command line application that allows a user to:
 
 1. Create an account and store the user information
 2. Enter a new trip with the following information
-  *a. Trip Name
+- Trip Name
+    a. Trip Name
     b. Transportation Method
     c. Start Date
     d. End Date
