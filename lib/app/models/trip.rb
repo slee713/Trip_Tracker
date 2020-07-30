@@ -24,6 +24,7 @@ class Trip < ActiveRecord::Base
         puts "Transportation: #{self.transportation}"
         puts "Start Date: #{self.start_date}"
         puts "End Date: #{self.end_date}"
+        puts "Duration: #{(self.end_date - self.start_date).to_i} days"
     end
         
 

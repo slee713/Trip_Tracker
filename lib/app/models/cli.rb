@@ -79,6 +79,7 @@ def main_menu(user)
     
     case user_input
     when "5"
+        system "clear"
         puts "                                       Thank you for using Trip Tracker!!"
         puts "                                                      Good Bye!!"
         exit
