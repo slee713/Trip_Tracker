@@ -68,7 +68,7 @@ def main_menu(user)
                                                                               
     ").blue
     puts Rainbow("                                               WELCOME #{user.name.upcase}").black
-    puts "                                 1. Enter a new Trip" 
+    puts " \n                                 1. Enter a new Trip" 
     puts "                                 2. Find all of you trips and update any trip" 
     puts "                                 3. Find all of the states/countries you have visited" 
     puts "                                 4. Delete Account" 
@@ -79,10 +79,14 @@ def main_menu(user)
     
     case user_input
     when "5"
+        puts "                                       Thank you for using Trip Tracker!!"
+        puts "                                                      Good Bye!!"
         exit
     when "1"
+        system "clear"
         enter_new_trip(user)
     when "2"
+        system "clear"
         user.list_trips
         if user.find_trips == []
             puts "You have no trips! Please enter a new trip!"
@@ -90,10 +94,14 @@ def main_menu(user)
         end
         update_or_delete_trip(user.find_trips)
     when "3"
+        system "clear"
         find_all_states_and_countries(user)
+        system "clear"
     when "4"
+        system "clear"
         delete_account(user)
     else 
+        system "clear"
         puts "Invalid entry."
         main_menu(user)
     end
@@ -134,25 +142,35 @@ def update_or_delete_trip(trips)
         puts "5. Go Back to the Main Menu"
         user_input = gets.chomp
         if user_input == '1'
+            system "clear"
+            puts "Please choose a trip to view its information: (1 - #{trips.length})"
             $user.list_trips
             trip=choose_trip(trips)
             puts "Here is the trip information for #{trip.name}"
             trip.view_information
         elsif user_input == '2'
+            system "clear"
+            puts "Please choose a trip to view all its Stops: (1 - #{trips.length})"
             $user.list_trips
             trip = choose_trip(trips)
             puts "Here are all the stops for your trip #{trip.name}"
             trip.stop_information
         elsif user_input == '3'
+            system "clear"
+            puts "Please choose a trip to update: (1 - #{trips.length})"
             $user.list_trips
             trip = choose_trip(trips)
             update_trip(trip)
         elsif user_input == '4'
+            system "clear"
+            puts "Please choose a trip: (1 - #{trips.length})"
             $user.list_trips
             delete_trip_stops(trips)
         elsif user_input == '5'
+            system "clear"
             main_menu($user)
         else
+            system "clear"
             puts "Invalid Response. Please enter a number (1-3)"
             update_or_delete_trip(trips)
         end
@@ -199,7 +217,6 @@ def delete_trip_stops(trips)
 end
 
 def choose_trip(trips_array)
-    puts "Please choose a trip: (1 - #{trips_array.length})"
     user_input = gets.chomp
     trips_array[user_input.to_i-1]
 end
@@ -345,8 +362,10 @@ def go_back_to_menu?(user)
     while true
         response = gets.chomp.downcase
         if response == 'Y'.downcase
+            system "clear"
             main_menu(user)
         elsif response == 'N'.downcase
+            puts "Thank you for using Trip Tracker!! \n Have a great day!!"
             exit
         else
             puts "Invalid Response. Please enter 'y' or 'n'."
