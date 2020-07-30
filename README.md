@@ -1,4 +1,4 @@
-# Trip Tracker : Go. See. Write
+# Trip Tracker : Go. See. Write.
 
 Flatiron School Module 1 Group Project. 
 
