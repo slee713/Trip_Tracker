@@ -117,21 +117,21 @@ roan_bascoe_stop = Stop.create(
 )
 
 steven_m_stop1 = Stop.create(
-    trip_id: steven_m_trip,
+    trip_id: steven_m_trip.id,
     location_id: los_angeles.id,
     rating: 8,
     description: "Stay off the 504"
 )
 
 steven_m_stop2 = Stop.create(
-    trip_id: steven_m_trip,
+    trip_id: steven_m_trip.id,
     location_id: oakland.id,
     rating: 9,
     description: "I love skyline drive"
 )
 
 steven_m_stop3 = Stop.create(
-    trip_id: steven_m_trip,
+    trip_id: steven_m_trip.id,
     location_id: san_francisco.id,
     rating: 6,
     description: "Visited the Golden Gate Bridge"
