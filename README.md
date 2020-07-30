@@ -1,37 +1,38 @@
-# Trip Tracker
+# Trip Tracker : Go. See. Write
 
-Congratulations, you're at the end of module one! You've worked crazy hard to get here and have learned a ton.
+Flatiron School Module 1 Group Project. 
 
-For your final project, we'll be building a Command Line database application.
+## Project Details
 
-## Project Requirements
+Trip Tracker is a command line application that allows a user to:
 
-### Option One - Data Analytics Project
+    1. Create an account and store the user information
+    2. Enter a new trip with the following information
+          a. Trip Name
+          b. Transportation Method
+          c. Start Date
+          d. End Date
+          e. Add Multiple Stops with the following information
+              - Location city name, and state/country 
+              - rating for that stop
+              - description for the stop
+    3. View all of his/her trip informatioin
+    4. Update a trip/stop information
+    5. Delete a Trip including all of the stops related to that trip
+    6. Find all of the unique states/countries the user has visited
+    6. Delete account and all of the trips and stops associated with that account
 
-1. Access a Sqlite3 Database using ActiveRecord.
-2. You should have at minimum three models including one join model. This means you must have a many-to-many relationship.
-3. You should seed your database using data that you collect either from a CSV, a website by scraping, or an API.
-4. Your models should have methods that answer interesting questions about the data. For example, if you've collected info about movie reviews, what is the most popular movie? What movie has the most reviews?
-5. You should provide a CLI to display the return values of your interesting methods.  
-6. Use good OO design patterns. You should have separate classes for your models and CLI interface.
+Video Link:
 
-  **Resource:** [Easy Access APIs](https://github.com/learn-co-curriculum/easy-access-apis)
+## Installation Instructions
 
-### Option Two - Command Line CRUD App
+1. Fork and clone the respository to your computer
+2. Run bundle install to install all required Gems.
+3. Run rake db:migrate to migrate and create all of the tables
+4. Run rake db:seed to load the seeded data from db/seeds.rb file
+5. Run ruby bin/run.rb
 
-1. Access a Sqlite3 Database using ActiveRecord.
-2. You should have a minimum of three models.
-3. You should build out a CLI to give your user full CRUD ability for at least one of your resources. For example, build out a command line To-Do list. A user should be able to create a new to-do, see all todos, update a todo item, and delete a todo. Todos can be grouped into categories, so that a to-do has many categories and categories have many to-dos.
-4. Use good OO design patterns. You should have separate classes for your models and CLI interface.
-
-### Brainstorming and Proposing a Project Idea
-
-Projects need to be approved prior to launching into them, so take some time to brainstorm project options that will fulfill the requirements above.  You must have a minimum of four [user stories](https://en.wikipedia.org/wiki/User_story) to help explain how a user will interact with your app.  A user story should follow the general structure of `"As a <role>, I want <goal/desire> so that <benefit>"`. For example, if we were creating an app to randomly choose nearby restaurants on Yelp, we might write:
-
-* As a user, I want to be able to enter my name to retrieve my records
-* As a user, I want to enter a location and be given a random nearby restaurant suggestion
-* As a user, I should be able to reject a suggestion and not see that restaurant suggestion again
-* As a user, I want to be able to save to and retrieve a list of favorite restaurant suggestions
+  **Resource:** [git@github.com:slee713/ruby-project-guidelines-wdc01-seng-ft-071320.git]
 
 ## Instructions
 
@@ -50,10 +51,4 @@ Projects need to be approved prior to launching into them, so take some time to 
       - Present any code you would like to highlight.   
 7. *OPTIONAL, BUT RECOMMENDED*: Write a blog post about the project and process.
 
----
-### Common Questions:
-- How do I turn off my SQL logger?
-```ruby
-# in config/environment.rb add this line:
-ActiveRecord::Base.logger = nil
-```
+
