@@ -18,6 +18,13 @@ class Trip < ActiveRecord::Base
             Rating: #{stop.rating}. Description: #{stop.description}"
         end
     end
+
+    def view_information
+        puts "Name: #{self.name}"
+        puts "Transportation: #{self.transportation}"
+        puts "Start Date: #{self.start_date}"
+        puts "End Date: #{self.end_date}"
+    end
         
 
     def duration

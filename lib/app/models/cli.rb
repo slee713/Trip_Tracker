@@ -9,21 +9,6 @@ def display
        ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚══════╝       ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
                                                                                                                    
     "
-    # puts << 'EOF'
-    #                                                      |
-    #                                                --====|====--
-    #                                                      |  
-
-    #                                                  .-"""""-. 
-    #                                                .'_________'. 
-    #                                               /_/_|__|__|_\_\
-    #                                              ;'-._       _.-';
-    #                         ,--------------------|    `-. .-'    |--------------------,
-    #                          ``""--..__    ___   ;       '       ;   ___    __..--""``
-    #                                     `-// \\.._\             /_..// \\-"`
-    #                                       \\_//    '._       _.'    \\_//
-    #                                        `"`        ``---``        `"`
-    # EOF>>
 end
 
 def greeting
@@ -131,21 +116,25 @@ end
 #trips is an array of a user's trips
 def update_or_delete_trip(trips)
     while true
-        puts "Please select the following options: (1-3) "
-        puts "1. View all stops for a trip"
-        puts "2. Update a Trip"
-        puts "3. Delete a Trip and all of its Stops"
-        puts "4. Go back to the main menu"
+        puts "Please select the following options: (1-5) "
+        puts "1. View Trip Information"
+        puts "2. View All Stop Information for a Trip"
+        puts "3. Update a Trip"
+        puts "4. Delete a Trip and All of its Stops"
+        puts "5. Go Back to the Main Menu"
         user_input = gets.chomp
         if user_input == '1'
-            trip = choose_trip(trips)
-            trip.stop_information
+            trip=choose_trip(trips)
+            trip.view_information
         elsif user_input == '2'
             trip = choose_trip(trips)
-            update_trip(trip)
+            trip.stop_information
         elsif user_input == '3'
-            delete_trip_stops(trips)
+            trip = choose_trip(trips)
+            update_trip(trip)
         elsif user_input == '4'
+            delete_trip_stops(trips)
+        elsif user_input == '5'
             main_menu($user)
         else
             puts "Invalid Response. Please enter a number (1-3)"
@@ -333,6 +322,8 @@ def go_back_to_menu?(user)
             main_menu(user)
         elsif response == 'N'.downcase
             exit
+        else
+            puts "Invalid Response. Please enter 'y' or 'n'."
         end
     end
 end
