@@ -22,7 +22,8 @@ def display
 end
 
 def greeting
-    puts "                             Welcome to Travel Tracker! Do you have an account? (Y/N)"
+    puts "                      Welcome to Travel Tracker! The app that keeps track of all your trips!"
+    puts "                                             Do you have an account? (Y/N)"
     while true
         user_response = gets.chomp.downcase
         if user_response == 'Y'.downcase
@@ -67,13 +68,13 @@ def main_menu(user)
                         ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝    ╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ 
                                                                               
     ").blue
-    puts Rainbow("                                               WELCOME #{user.name.upcase}").black
+    puts Rainbow("                                                 WELCOME #{user.name.upcase}").black
     puts " \n                                 1. Enter a new Trip" 
     puts "                                 2. Find all of you trips and update any trip" 
     puts "                                 3. Find all of the states/countries you have visited" 
     puts "                                 4. Delete Account" 
     puts "                                 5. Exit" 
-    puts "                         Please select from the options above using numbers (1-5) as your input:"
+    puts "\n                        Please select from the options above using numbers (1-5) as your input:"
 
     user_input = gets.chomp
     
