@@ -1,6 +1,6 @@
 require 'rainbow'
 def display
-    puts "
+    puts  Rainbow("
     ████████╗██████╗  █████╗ ██╗   ██╗███████╗██╗         ████████╗██████╗  █████╗  ██████╗██╗  ██╗███████╗██████╗ 
     ╚══██╔══╝██╔══██╗██╔══██╗██║   ██║██╔════╝██║         ╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║ ██╔╝██╔════╝██╔══██╗
        ██║   ██████╔╝███████║██║   ██║█████╗  ██║            ██║   ██████╔╝███████║██║     █████╔╝ █████╗  ██████╔╝
@@ -8,8 +8,8 @@ def display
        ██║   ██║  ██║██║  ██║ ╚████╔╝ ███████╗███████╗       ██║   ██║  ██║██║  ██║╚██████╗██║  ██╗███████╗██║  ██║
        ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚══════╝       ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
                                                                                                                    
-    "
-    puts "
+    ").red.bright
+    puts Rainbow("
     
        _______  _______          _______  _______  _______          _     _  ______    ___   _______  _______       
       |       ||       |        |       ||       ||       |        | | _ | ||    _ |  |   | |       ||       |      
@@ -18,11 +18,11 @@ def display
       |   ||  ||  |_|  | ___    |_____  ||    ___||    ___| ___    |       ||    __  ||   |   |   |  |    ___| ___  
       |   |_| ||       ||   |    _____| ||   |___ |   |___ |   |   |   _   ||   |  | ||   |   |   |  |   |___ |   | 
       |_______||_______||___|   |_______||_______||_______||___|   |__| |__||___|  |_||___|   |___|  |_______||___| 
- "
+ ")
 end
 
 def greeting
-    puts "Welcome to Travel Tracker! Do you have an account? (Y/N)"
+    puts "                             Welcome to Travel Tracker! Do you have an account? (Y/N)"
     while true
         user_response = gets.chomp.downcase
         if user_response == 'Y'.downcase
@@ -58,25 +58,22 @@ end
 
 
 def main_menu(user)#$user
-    puts "
-    ███╗   ███╗ █████╗ ██╗███╗   ██╗    ███╗   ███╗███████╗███╗   ██╗██╗   ██╗
-    ████╗ ████║██╔══██╗██║████╗  ██║    ████╗ ████║██╔════╝████╗  ██║██║   ██║
-    ██╔████╔██║███████║██║██╔██╗ ██║    ██╔████╔██║█████╗  ██╔██╗ ██║██║   ██║
-    ██║╚██╔╝██║██╔══██║██║██║╚██╗██║    ██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║
-    ██║ ╚═╝ ██║██║  ██║██║██║ ╚████║    ██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝
-    ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝    ╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ 
+    puts Rainbow("
+                        ███╗   ███╗ █████╗ ██╗███╗   ██╗    ███╗   ███╗███████╗███╗   ██╗██╗   ██╗
+                        ████╗ ████║██╔══██╗██║████╗  ██║    ████╗ ████║██╔════╝████╗  ██║██║   ██║
+                        ██╔████╔██║███████║██║██╔██╗ ██║    ██╔████╔██║█████╗  ██╔██╗ ██║██║   ██║
+                        ██║╚██╔╝██║██╔══██║██║██║╚██╗██║    ██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║
+                        ██║ ╚═╝ ██║██║  ██║██║██║ ╚████║    ██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝
+                        ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝    ╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ 
                                                                               
-    "
-    puts "WELCOME #{user.name.upcase}"
-    puts "1. Enter a new Trip" #working
-    puts "2. Find all of you trips and update any trip" # list of trips we can 
-    #have another menu with 1. View Stops for a trip 
-    #2. Update trip. 
-    #3. Delete Trip 
-    puts "3. Find all of the states/countries you have visited" #working
-    puts "4. Delete Account" #working
-    puts "5. Exit" #working
-    puts "Please select from the options above using numbers (1-5) as your input:"
+    ").blue
+    puts Rainbow("                                               WELCOME #{user.name.upcase}").black
+    puts "                                 1. Enter a new Trip" 
+    puts "                                 2. Find all of you trips and update any trip" 
+    puts "                                 3. Find all of the states/countries you have visited" 
+    puts "                                 4. Delete Account" 
+    puts "                                 5. Exit" 
+    puts "                         Please select from the options above using numbers (1-5) as your input:"
 
     user_input = gets.chomp
     
