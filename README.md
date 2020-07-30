@@ -1,5 +1,7 @@
 # Trip Tracker : Go. See. Write.
 
+![alt text](https://github.com/slee713/Trip_Tracker/blob/master/Screen%20Shot%202020-07-30%20at%203.03.53%20PM.png)
+
 Flatiron School Module 1 Group Project. 
 
 ## Project Details
