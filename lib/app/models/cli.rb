@@ -57,7 +57,7 @@ end
 
 
 
-def main_menu(user)#$user
+def main_menu(user)
     puts Rainbow("
                         ███╗   ███╗ █████╗ ██╗███╗   ██╗    ███╗   ███╗███████╗███╗   ██╗██╗   ██╗
                         ████╗ ████║██╔══██╗██║████╗  ██║    ████╗ ████║██╔════╝████╗  ██║██║   ██║
@@ -99,6 +99,8 @@ def main_menu(user)#$user
     end
 end
 
+#USER STORY 1) ENTER A NEW TRIP
+#allows user to enter attributes of a trip through prompts and addes stops through helper methods
 def enter_new_trip(user)
     puts "Enter a new Trip"
     puts "What is the name of your trip?"
@@ -120,7 +122,8 @@ def enter_new_trip(user)
         )
     create_locations(trip)
 end
-#trips is an array of a user's trips
+
+#USER STORY 2, Update/Delete existing trips
 def update_or_delete_trip(trips)
     while true
         puts "Please select the following options: (1-5) "
@@ -155,6 +158,37 @@ def update_or_delete_trip(trips)
         end
     end
 end
+
+
+#USER STORY 3, Find all states/countries user went to
+def find_all_states_and_countries(user)
+    locations = user.find_all_locations
+    list_of_locations(locations.uniq)
+    go_back_to_menu?(user)
+end
+
+def delete_account(user)
+    puts "Do you want to delete this account. (Y/N)"
+    user_input = gets.chomp.downcase
+    if user_input == 'y'
+        trips = Trip.where(user_id: user.id)
+        trips.each do |trip|
+             Stop.where(trip_id: trip.id).delete_all
+        end
+        Trip.where(user_id: user.id).delete_all
+        User.delete(user.id)
+        puts "Account Deleted"
+        puts "Thank you for using Trip Tracker!"
+        exit
+    elsif user_input == 'n'
+        main_menu($user)
+    else
+        puts "Invalid input. Please type 'y' or 'n'. "
+        delete_account(user)
+    end
+end
+
+
 
 def delete_trip_stops(trips)
     trip = choose_trip(trips)
@@ -238,32 +272,6 @@ def stop_information(trip)
     end
 end
 
-def find_all_states_and_countries(user)
-    locations = user.find_all_locations
-    list_of_locations(locations.uniq)
-    go_back_to_menu?(user)
-end
-
-def delete_account(user)
-    puts "Do you want to delete this account. (Y/N)"
-    user_input = gets.chomp.downcase
-    if user_input == 'y'
-        trips = Trip.where(user_id: user.id)
-        trips.each do |trip|
-             Stop.where(trip_id: trip.id).delete_all
-        end
-        Trip.where(user_id: user.id).delete_all
-        User.delete(user.id)
-        puts "Account Deleted"
-        puts "Thank you for using Trip Tracker!"
-        exit
-    elsif user_input == 'n'
-        main_menu($user)
-    else
-        puts "Invalid input. Please type 'y' or 'n'. "
-        delete_account(user)
-    end
-end
 
 #helper methods
 def capitalize(string)
@@ -278,15 +286,27 @@ def create_locations(new_trip)
     puts "Which state or country was it in?"
         location_statecountry = gets.chomp
         all_location_name = Location.all.map {|location| location.city_name}
-    if !all_location_name.include?(capitalize(location_name))
+        a_location = Location.find_by city_name: capitalize(location_name)
+    if a_location && !a_location.state_or_country == capitalize(location_statecountry)
         location = Location.create(
             city_name: capitalize(location_name),
             state_or_country: capitalize(location_statecountry)
             )
         create_spots(new_trip, location)
         another_spot?(new_trip)
-    elsif all_location_name.include?(capitalize(location_name))
-        location = (Location.find_by city_name: capitalize(location_name))
+    elsif a_location && a_location.state_or_country == capitalize(location_name)
+        location = (
+            Location.find_by( 
+            city_name: capitalize(location_name), 
+            state_or_country: capitalize(location_statecountry))
+            )
+        create_spots(new_trip, location)
+        another_spot?(new_trip)
+    else
+        location = Location.create(
+            city_name: capitalize(location_name),
+            state_or_country: capitalize(location_statecountry)
+            )
         create_spots(new_trip, location)
         another_spot?(new_trip)
     end
