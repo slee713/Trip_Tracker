@@ -90,20 +90,20 @@ seattle = Location.create(
 #Stops
 
 steven1_stop_1 = Stop.create(
-    trip_id: visitin_michael.id,
+    trip_id: visiting_michael.id,
     location_id: philadelphia.id,
     rating: 8,
     description: "I stopped by Philadelphia to eat some cheesesteaks and to get a break from driving"
 )
 
 steven1_stop_2 = Stop.create(
-    trip_id: visitin_michael.id,
+    trip_id: visiting_michael.id,
     location_id: boston.id,
     rating: 9,
     description: "We picked up my brother and spent the day in Boston"
 )
 steven1_stop_3 = Stop.create(
-    trip_id: visitin_michael.id,
+    trip_id: visiting_michael.id,
     location_id: portland.id,
     rating: 10,
     description: "Spent a couple days in portland. Had the best oysters and lobster roll"
@@ -147,6 +147,6 @@ steven4_stop1 = Stop.create(
 steven4_stop1 = Stop.create(
     trip_id:vacation_to_seattle.id,
     location_id: seattle.id,
-    rating: 9
+    rating: 9,
     description: "Spent 2 days in Seattle sight seeing and eating great food"
 )

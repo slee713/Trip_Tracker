@@ -4,8 +4,8 @@ class CreateTrips < ActiveRecord::Migration[5.2]
       t.string :name
       t.integer :user_id
       t.string :transportation
-      t.datetime :start_date
-      t.datetime :end_date
+      t.date :start_date
+      t.date :end_date
     end
   end
 end

@@ -28,8 +28,8 @@ ActiveRecord::Schema.define(version: 2020_07_28_180815) do
     t.string "name"
     t.integer "user_id"
     t.string "transportation"
-    t.datetime "start_date"
-    t.datetime "end_date"
+    t.date "start_date"
+    t.date "end_date"
   end
 
   create_table "users", force: :cascade do |t|
