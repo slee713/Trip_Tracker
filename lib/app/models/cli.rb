@@ -165,7 +165,7 @@ def update_or_delete_trip(trips)
             update_trip(trip)
         elsif user_input == '4'
             system "clear"
-            puts "Please choose a trip: (1 - #{trips.length})"
+            puts "Please choose a trip to delete: (1 - #{trips.length})"
             $user.list_trips
             delete_trip_stops(trips)
         elsif user_input == '5'
