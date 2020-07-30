@@ -26,13 +26,13 @@ Video Link:
 
 ## Installation Instructions
 
-1. Fork and clone the respository to your computer
+1. Clone the respository to your computer
 2. Run `bundle install` to install all required Gems.
 3. Run `rake db:migrate` to migrate and create all of the tables
 4. Run `rake db:seed` to load the seeded data from db/seeds.rb file
 5. Run `ruby bin/run.rb`
 
-  **Resource:** [git@github.com:slee713/ruby-project-guidelines-wdc01-seng-ft-071320.git]
+  **Resource:** [https://github.com/slee713/Trip_Tracker]
 
 ## Instructions
 
