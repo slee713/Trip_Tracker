@@ -306,24 +306,19 @@ def create_locations(new_trip)
         location_statecountry = gets.chomp
         existing_location = Location.find_by(city_name: capitalize(location_name), state_or_country: capitalize(location_statecountry))
     if existing_location
-        location = (
-            Location.find_by( 
-            city_name: capitalize(location_name), 
-            state_or_country: capitalize(location_statecountry))
-            )
-        create_spots(new_trip, location)
-        another_spot?(new_trip)
+        create_stops(new_trip, existing_location)
+        another_stop?(new_trip)
     else
         location = Location.create(
             city_name: capitalize(location_name),
             state_or_country: capitalize(location_statecountry)
             )
-        create_spots(new_trip, location)
-        another_spot?(new_trip)
+        create_stops(new_trip, location)
+        another_stop?(new_trip)
     end
 end
 
-def create_spots(trip, location) 
+def create_stops(trip, location) 
     puts "How would you rate this stop? (1-10)?"
     user_rating = gets.chomp
     puts "Please write a description for this stop."
@@ -337,8 +332,8 @@ def create_spots(trip, location)
 end
 
 
-def another_spot?(new_trip)
-    puts "Did you visit another spot on this trip? (Y/N)"
+def another_stop?(new_trip)
+    puts "Did you visit another stop on this trip? (Y/N)"
     response = gets.chomp.downcase
     if response == "Y".downcase
         create_locations(new_trip)
@@ -346,7 +341,7 @@ def another_spot?(new_trip)
         go_back_to_menu?($user)
     else
         puts "Invalid Response. Please enter 'y' or 'n'."
-        another_spot?(new_trip)
+        another_stop?(new_trip)
     end  
 end
 

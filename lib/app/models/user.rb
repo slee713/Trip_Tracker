@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
     has_many :trips
 
     def find_trips
-        Trip.all.find_all {|trip| trip.user_id == self.id}
+        Trip.where(user_id: self.id)
     end
 
     def find_all_locations
