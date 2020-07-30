@@ -109,7 +109,7 @@ end
 #USER STORY 1) ENTER A NEW TRIP
 #allows user to enter attributes of a trip through prompts and addes stops through helper methods
 def enter_new_trip(user)
-    puts "Enter a new Trip"
+    puts "\nEnter a new Trip"
     puts "What is the name of your trip?"
         trip_name = gets.chomp
     puts "What was your method of transportation?"
@@ -133,7 +133,7 @@ end
 #USER STORY 2, Update/Delete existing trips
 def update_or_delete_trip(trips)
     while true
-        puts "Please select the following options: (1-5) "
+        puts "\nPlease select the following options: (1-5) "
         puts "1. View Trip Information"
         puts "2. View All Stop Information for a Trip"
         puts "3. Update a Trip"
@@ -145,14 +145,14 @@ def update_or_delete_trip(trips)
             puts "Please choose a trip to view its information: (1 - #{trips.length})"
             $user.list_trips
             trip=choose_trip(trips)
-            puts "Here is the trip information for #{trip.name}"
+            puts "\nHere is the trip information for #{trip.name}"
             trip.view_information
         elsif user_input == '2'
             system "clear"
             puts "Please choose a trip to view all its Stops: (1 - #{trips.length})"
             $user.list_trips
             trip = choose_trip(trips)
-            puts "Here are all the stops for your trip #{trip.name}"
+            puts "\nHere are all the stops for your trip #{trip.name}"
             trip.stop_information
         elsif user_input == '3'
             system "clear"
@@ -263,7 +263,7 @@ end
 
 def stop_information(trip)
     stops = trip.stops
-    puts "Which stop would you like to edit?"
+    puts "\nWhich stop would you like to edit?"
     trip.list_stops_by_location_name
     puts "#{stops.length+1}. Add a stop"
     puts "Please choose a option: (1 - #{stops.length+1})"
@@ -306,7 +306,7 @@ end
 
 #helper methods for enter_new_trip
 def create_locations(new_trip)
-    puts "Which city did you visit on this trip?"
+    puts "\nWhich city did you visit on this trip?"
         location_name = gets.chomp
     puts "Which state or country was it in?"
         location_statecountry = gets.chomp
@@ -325,9 +325,9 @@ def create_locations(new_trip)
 end
 
 def create_stops(trip, location) 
-    puts "How would you rate this stop? (1-10)?"
+    puts "\nHow would you rate this stop? (1-10)?"
     user_rating = gets.chomp
-    puts "Please write a description for this stop."
+    puts "\nPlease write a description for this stop."
     user_description = gets.chomp
     Stop.create(
         trip_id: trip.id,
@@ -339,7 +339,7 @@ end
 
 
 def another_stop?(new_trip)
-    puts "Did you visit another stop on this trip? (Y/N)"
+    puts "\nDid you visit another stop on this trip? (Y/N)"
     response = gets.chomp.downcase
     if response == "Y".downcase
         create_locations(new_trip)
@@ -355,7 +355,7 @@ end
 def list_of_locations(location)
     puts "Here are all of the locations you have visited!"
     location.each_with_index {|location, index| 
-    puts "#{index+1}. #{location.city_name}, #{location.state_or_country}"
+    puts "\n#{index+1}. #{location.city_name}, #{location.state_or_country}"
     }
 end
 
