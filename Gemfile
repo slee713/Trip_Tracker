@@ -7,3 +7,4 @@ gem "sinatra-activerecord"
 gem "pry"
 gem 'rake'
 gem "require_all"
+gem 'rainbow'
