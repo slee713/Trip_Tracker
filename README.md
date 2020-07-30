@@ -6,31 +6,31 @@ Flatiron School Module 1 Group Project.
 
 Trip Tracker is a command line application that allows a user to:
 
-    1. Create an account and store the user information
-    2. Enter a new trip with the following information
-          a. Trip Name
-          b. Transportation Method
-          c. Start Date
-          d. End Date
-          e. Add Multiple Stops with the following information
-              - Location city name, and state/country 
-              - rating for that stop
-              - description for the stop
-    3. View all of his/her trip informatioin
-    4. Update a trip/stop information
-    5. Delete a Trip including all of the stops related to that trip
-    6. Find all of the unique states/countries the user has visited
-    6. Delete account and all of the trips and stops associated with that account
+1. Create an account and store the user information
+2. Enter a new trip with the following information
+    a. Trip Name
+    b. Transportation Method
+    c. Start Date
+    d. End Date
+    e. Add Multiple Stops with the following information
+        - Location city name, and state/country 
+        - rating for that stop
+        - description for the stop
+3. View all of his/her trip informatioin
+4. Update a trip/stop information
+5. Delete a Trip including all of the stops related to that trip
+6. Find all of the unique states/countries the user has visited
+6. Delete account and all of the trips and stops associated with that account
 
 Video Link:
 
 ## Installation Instructions
 
 1. Fork and clone the respository to your computer
-2. Run bundle install to install all required Gems.
-3. Run rake db:migrate to migrate and create all of the tables
-4. Run rake db:seed to load the seeded data from db/seeds.rb file
-5. Run ruby bin/run.rb
+2. Run `bundle install` to install all required Gems.
+3. Run `rake db:migrate` to migrate and create all of the tables
+4. Run `rake db:seed` to load the seeded data from db/seeds.rb file
+5. Run `ruby bin/run.rb`
 
   **Resource:** [git@github.com:slee713/ruby-project-guidelines-wdc01-seng-ft-071320.git]
 
