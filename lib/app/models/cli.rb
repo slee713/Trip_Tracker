@@ -69,7 +69,7 @@ def main_menu(user)
     puts " \n                                 1. Enter a new Trip" 
     puts "                                 2. Find all of you trips and update any trip" 
     puts "                                 3. Find all of the states/countries you have visited" 
-    puts "                                 4. Delete Account" 
+    puts "                                 5. Delete Account" 
     puts "                                 5. Exit" 
     puts "\n                        Please select from the options above using numbers (1-5) as your input:"
 
@@ -222,7 +222,7 @@ end
 
 def update_trip(trip)
     while true
-        puts "What would you like to edit? Please enter a number (1-5):"
+        puts "\nWhat would you like to edit? Please enter a number (1-5):"
         puts "1. Trip Name"
         puts "2. Trip Transportation Method"
         puts "3. Trip Date Information"
@@ -230,24 +230,29 @@ def update_trip(trip)
         puts "5. Go Back to Main Menu"
         user_input = gets.chomp
         if user_input == '1'
-            puts "Please enter a new name"
+            puts "Please enter a new name for #{trip.name}."
             new_name = gets.chomp
+            puts "The name has changed from #{trip.name} to #{new_name}."
             trip.update_column(:name, new_name)
         elsif user_input == '2'
-            puts "Please enter a new trasnportation method"
+            puts "Please enter a new trasnportation method for #{trip.name}."
             new_method = gets.chomp
+            puts "The transportation method has changed from #{trip.transportation} to #{new_method}."
             trip.update_column(:transportation, new_method)
         elsif user_input == '3' 
-            puts "Please enter start date (YYYY/MM/DD)"
+            puts "Please enter start date (YYYY/MM/DD) for #{trip.name}."
             new_date = gets.chomp
             date = Date.parse(new_date)
-            puts "How many days did you spend on this trip?"
+            puts "The start date has changed from #{trip.start_date} to #{date}."
+            date = Date.parse(new_date)
+            puts "How many days did you spend on the trip #{trip.name}?"
             duration = gets.chomp.to_i
             trip.update_column(:start_date, date)
             trip.update_column(:end_date, date+duration)
         elsif user_input == '4'
             stop_information(trip)
         elsif user_input == '5'
+            system "clear"
             main_menu($user)
         else
             puts "Invalid Response. Please enter a number from 1-5."
@@ -266,7 +271,7 @@ def stop_information(trip)
     stop = stops[user_input.to_i-1]
     if user_input.to_i <= stops.length && user_input.to_i>0
         while true
-            puts "What would you like to change?"
+            puts "\nWhat would you like to change?"
             puts "1. Change Rating"
             puts "2. Description"
             puts "3. Go back to the main menu"
@@ -274,12 +279,16 @@ def stop_information(trip)
             if user_choice == '1'
                 puts "Please enter a new rating (1-10) for this stop:"
                 change_rating = gets.chomp.to_i
+                puts "The rating has changed from #{stop.rating} to #{change_rating}"
                 stop.update_column(:rating, change_rating)
             elsif user_choice == '2'
                 puts "Please enter a new description for this stop:"
                 change_desc = gets.chomp
+                puts "You have updated the description to:"
+                puts "      #{change_desc}"
                 stop.update_column(:description, change_desc)
             elsif user_choice == '3'
+                system "clear"
                 main_menu($user)
             end
         end
