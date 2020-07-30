@@ -290,11 +290,17 @@ def stop_information(trip)
             elsif user_choice == '3'
                 system "clear"
                 main_menu($user)
+            else
+                puts "Invalid Response. Please try again."
             end
         end
     elsif user_input.to_i == stops.length+1
         create_locations(trip)
+    else 
+        puts "Invalid Response. Please choose a valid stop."
+        stop_information(trip)
     end
+
 end
 
 
