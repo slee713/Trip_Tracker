@@ -69,7 +69,7 @@ def main_menu(user)
     puts " \n                                 1. Enter a new Trip" 
     puts "                                 2. Find all of you trips and update any trip" 
     puts "                                 3. Find all of the states/countries you have visited" 
-    puts "                                 5. Delete Account" 
+    puts "                                 4. Delete Account" 
     puts "                                 5. Exit" 
     puts "\n                        Please select from the options above using numbers (1-5) as your input:"
 
@@ -79,7 +79,7 @@ def main_menu(user)
     when "5"
         system "clear"
         puts "                                       Thank you for using Trip Tracker!!"
-        puts "                                                      Good Bye!!"
+        puts "                                                    Good Bye!!"
         exit
     when "1"
         system "clear"
