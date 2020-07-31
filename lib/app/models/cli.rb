@@ -239,7 +239,6 @@ def choose_trip(trips_array)
         $user.list_trips
         user_input = gets.chomp.to_i
         if user_input > trips_array.length
-            system
             puts "\nUser input #{user_input} is invalid. Please select a valid trip:\n"
         else
             trip = trips_array[user_input.to_i-1]
@@ -266,14 +265,14 @@ def update_trip(trip)
             puts "\nThe name has changed from #{trip.name} to #{new_name}."
             trip.update_column(:name, new_name)
         when '2'
-            puts "Please enter a new trasnportation method for #{trip.name}."
+            puts "Please enter a new trasnportation method for #{trip.name}. The current transportation method is #{trip.transportation}"
             new_method = gets.chomp
             puts "\nThe transportation method has changed from #{trip.transportation} to #{new_method}."
             trip.update_column(:transportation, new_method)
         when '3' 
             date_found = false
             while not date_found
-                puts "Please enter start date (YYYY/MM/DD) for #{trip.name}."
+                puts "The current start date is #{trip.start_date}/ Please enter a new start date (YYYY/MM/DD) for #{trip.name}."
                 new_date = gets.chomp
                 date = Date.parse(new_date)
                 puts "\nThe start date has changed from #{trip.start_date} to #{date}. Is this correct? (Y/N)"
