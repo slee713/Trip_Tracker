@@ -27,25 +27,30 @@ def greeting
             puts "Please enter username"
             user_input = gets.chomp.downcase
             $user = User.find_by username: user_input
-            break
+            if $user
+                break
+            else
+                puts "\nUsername is not valid. Do you have an account? (Y/N)"
+                true
+            end
         elsif user_response == 'N'.downcase
             create_account
             break
         else 
-            puts "Invalid response. Do you have an account? (Y/N)"
+            puts "\nInvalid response. Do you have an account? (Y/N)"
         end
     end
 end
 
 def create_account
-    puts "Let's make an account!"
+    puts "\nLet's make an account!"
         puts "Please enter your username"
         while true
             user_username = gets.chomp.downcase
             if User.exists?(:username => user_username)
-                puts "That username is already taken. Please enter new username."
+                puts "\nThat username is already taken. Please enter new username."
             else 
-                puts "What is your name?"
+                puts "\nWhat is your name?"
                 user_name = gets.chomp
                 $user = User.create(name: user_name, username: user_username)
                 break
@@ -88,7 +93,7 @@ def main_menu(user)
         system "clear"
         user.list_trips
         if user.find_trips == []
-            puts "You have no trips! Please enter a new trip!"
+            puts "\nYou have no trips! Please enter a new trip!"
             enter_new_trip(user)
         end
         update_or_delete_trip(user.find_trips)
@@ -101,7 +106,7 @@ def main_menu(user)
         delete_account(user)
     else 
         system "clear"
-        puts "Invalid entry."
+        puts "\nInvalid entry."
         main_menu(user)
     end
 end
@@ -112,12 +117,12 @@ def enter_new_trip(user)
     puts "\nEnter a new Trip"
     puts "What is the name of your trip?"
         trip_name = gets.chomp
-    puts "What was your method of transportation?"
+    puts "\nWhat was your method of transportation?"
         transportation = gets.chomp
-    puts "What was your start date? (YYYY/MM/DD)"
+    puts "\nWhat was your start date? (YYYY/MM/DD)"
         start = gets.chomp
         start_date = Date.parse(start)
-    puts "How many days did you spend on this trip?"
+    puts "\nHow many days did you spend on this trip?"
         duration = gets.chomp.to_i
         user_end_date = start_date + duration
     trip = Trip.create(
@@ -316,7 +321,11 @@ def create_locations(new_trip)
         location_name = gets.chomp
     puts "Which state or country was it in?"
         location_statecountry = gets.chomp
-        existing_location = Location.find_by(city_name: capitalize(location_name), state_or_country: capitalize(location_statecountry))
+        existing_location = 
+            Location.find_by(
+                city_name: capitalize(location_name), 
+                state_or_country: capitalize(location_statecountry)
+                )
     if existing_location
         create_stops(new_trip, existing_location)
         another_stop?(new_trip)
