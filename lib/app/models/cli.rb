@@ -90,6 +90,7 @@ def main_menu(user)
         enter_new_trip(user)
     when "2"
         system "clear"
+        
         if user.find_trips == []
             puts "\nYou have no trips! Would you like to enter a new trip? (Y/N)"
             while true 
@@ -103,6 +104,7 @@ def main_menu(user)
                 end
             end
         else
+            $user.list_trips
             update_or_delete_trip(user.find_trips)
         end
     when "3"
@@ -126,9 +128,17 @@ def enter_new_trip(user)
         trip_name = gets.chomp
     puts "\nWhat was your method of transportation?"
         transportation = gets.chomp
-    puts "\nWhat was your start date? (YYYY/MM/DD)"
-        start = gets.chomp
-        start_date = Date.parse(start)
+    date_found = false
+    while not date_found
+        puts "What was your start date? (YYYY/MM/DD)"
+        date = gets.chomp
+        start_date = Date.parse(date)
+        puts "\nThe start date is #{start_date}. Is this correct? (Y/N)"
+        user_response = gets.chomp
+            if user_response.downcase == 'y'
+                date_found = true
+            end
+        end
     puts "\nHow many days did you spend on this trip?"
         duration = gets.chomp.to_i
         user_end_date = start_date + duration
@@ -152,29 +162,30 @@ def update_or_delete_trip(trips)
         puts "4. Delete a Trip and All of its Stops"
         puts "5. Go Back to the Main Menu"
         user_input = gets.chomp
-        if user_input == '1'
+        case user_input
+        when'1'
             system "clear"
             puts "Please choose a trip to view its information: (1 - #{trips.length})"
             trip=choose_trip(trips)
             puts "\nHere is the trip information for #{trip.name}"
             trip.view_information
-        elsif user_input == '2'
+        when'2'
             system "clear"
             puts "Please choose a trip to view all its Stops: (1 - #{trips.length})"
             trip = choose_trip(trips)
             puts "\nHere are all the stops for your trip #{trip.name}"
             trip.stop_information
-        elsif user_input == '3'
+        when'3'
             system "clear"
             puts "Please choose a trip to update: (1 - #{trips.length})"
             trip = choose_trip(trips)
             update_trip(trip)
-        elsif user_input == '4'
+        when'4'
             system "clear"
             puts "Please choose a trip to delete: (1 - #{trips.length})"
             delete_trip_stops(trips)
             go_back_to_menu?($user)
-        elsif user_input == '5'
+        when'5'
             system "clear"
             main_menu($user)
         else
@@ -248,17 +259,18 @@ def update_trip(trip)
         puts "4. Stop information for this Trip"
         puts "5. Go Back to Main Menu"
         user_input = gets.chomp
-        if user_input == '1'
+        case user_input
+        when '1'
             puts "Please enter a new name for #{trip.name}."
             new_name = gets.chomp
             puts "\nThe name has changed from #{trip.name} to #{new_name}."
             trip.update_column(:name, new_name)
-        elsif user_input == '2'
+        when '2'
             puts "Please enter a new trasnportation method for #{trip.name}."
             new_method = gets.chomp
             puts "\nThe transportation method has changed from #{trip.transportation} to #{new_method}."
             trip.update_column(:transportation, new_method)
-        elsif user_input == '3' 
+        when '3' 
             date_found = false
             while not date_found
                 puts "Please enter start date (YYYY/MM/DD) for #{trip.name}."
@@ -274,9 +286,9 @@ def update_trip(trip)
             duration = gets.chomp.to_i
             trip.update_column(:start_date, date)
             trip.update_column(:end_date, date+duration)
-        elsif user_input == '4'
+        when  '4'
             stop_information(trip)
-        elsif user_input == '5'
+        when '5'
             system "clear"
             main_menu($user)
         else
@@ -301,7 +313,9 @@ def stop_information(trip)
             puts "2. Description"
             puts "3. Go back to the main menu"
             user_choice = gets.chomp 
-            if user_choice == '1'
+            case user_choice 
+
+            when '1'
                 puts "\nPlease enter a new rating (1-10) for this stop:"
                 while true
                 change_rating = gets.chomp.to_i
@@ -309,18 +323,20 @@ def stop_information(trip)
                     puts "Invalid entry. Please enter a number from 1 to 10"
                     elsif change_rating > 10
                     puts "The rating can only be from 1-10. The rating has been set to 10."
-                    break
+                        break
+                    else
+                        break
                     end
                 end
                 puts "\nThe rating has changed from #{stop.rating} to #{change_rating.clamp(1,10)}"
                 stop.update_column(:rating, change_rating.clamp(1,10))
-            elsif user_choice == '2'
+            when '2'
                 puts "\nPlease enter a new description for this stop:"
                 change_desc = gets.chomp
                 puts "\nYou have updated the description to:"
                 puts "      #{change_desc}"
                 stop.update_column(:description, change_desc)
-            elsif user_choice == '3'
+            when '3'
                 system "clear"
                 main_menu($user)
             else
@@ -376,6 +392,8 @@ def create_stops(trip, location)
         elsif user_rating > 10 
             puts "The rating can only be from 1-10. The rating has been set to 10."
             break
+        else 
+            break
         end
     end
     puts "\nPlease write a description for this stop."
@@ -411,7 +429,7 @@ def list_of_locations(location)
 end
 
 def go_back_to_menu?(user)
-    puts "Do you want to go back to the main menu? (Y/N)?"
+    puts "\nDo you want to go back to the main menu? (Y/N)?"
     while true
         response = gets.chomp.downcase
         if response == 'Y'.downcase
