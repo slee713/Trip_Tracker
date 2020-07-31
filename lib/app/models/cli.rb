@@ -91,17 +91,25 @@ def main_menu(user)
     when "2"
         system "clear"
         if user.find_trips == []
-            puts "\nYou have no trips! Please enter a new trip!"
-            enter_new_trip(user)
+            puts "\nYou have no trips! Would you like to enter a new trip? (Y/N)"
+            while true 
+                response = gets.chomp
+                if response.downcase == 'y'
+                    enter_new_trip(user)
+                elsif response.downcase == 'n'
+                    go_back_to_menu?(user)
+                else
+                    puts "Invalid Response. Please input 'y' or 'n'. "
+                end
+            end
+        else
+            update_or_delete_trip(user.find_trips)
         end
-        user.list_trips
-        update_or_delete_trip(user.find_trips)
     when "3"
         system "clear"
         find_all_states_and_countries(user)
         system "clear"
     when "4"
-        system "clear"
         delete_account(user)
     else 
         system "clear"
@@ -138,7 +146,7 @@ end
 def update_or_delete_trip(trips)
     while true
         puts "\nPlease select the following options: (1-5) "
-        puts "1. View Trip Information"
+        puts "1. View the Information for A Trip"
         puts "2. View All Stop Information for a Trip"
         puts "3. Update a Trip"
         puts "4. Delete a Trip and All of its Stops"
@@ -171,7 +179,7 @@ def update_or_delete_trip(trips)
             main_menu($user)
         else
             system "clear"
-            puts "Invalid Response. Please enter a number (1-3)"
+            puts "Invalid Response. Please enter a number (1-5)"
             update_or_delete_trip(trips)
         end
     end
@@ -251,11 +259,17 @@ def update_trip(trip)
             puts "\nThe transportation method has changed from #{trip.transportation} to #{new_method}."
             trip.update_column(:transportation, new_method)
         elsif user_input == '3' 
-            puts "Please enter start date (YYYY/MM/DD) for #{trip.name}."
-            new_date = gets.chomp
-            date = Date.parse(new_date)
-            puts "\nThe start date has changed from #{trip.start_date} to #{date}."
-            date = Date.parse(new_date)
+            date_found = false
+            while not date_found
+                puts "Please enter start date (YYYY/MM/DD) for #{trip.name}."
+                new_date = gets.chomp
+                date = Date.parse(new_date)
+                puts "\nThe start date has changed from #{trip.start_date} to #{date}. Is this correct? (Y/N)"
+                user_response = gets.chomp
+                if user_response.downcase == 'y'
+                    date_found = true
+                end
+            end
             puts "\nHow many days did you spend on the trip #{trip.name}?"
             duration = gets.chomp.to_i
             trip.update_column(:start_date, date)
