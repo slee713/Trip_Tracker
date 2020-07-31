@@ -90,11 +90,11 @@ def main_menu(user)
         enter_new_trip(user)
     when "2"
         system "clear"
-        user.list_trips
         if user.find_trips == []
             puts "\nYou have no trips! Please enter a new trip!"
             enter_new_trip(user)
         end
+        user.list_trips
         update_or_delete_trip(user.find_trips)
     when "3"
         system "clear"
