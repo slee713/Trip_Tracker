@@ -26,8 +26,8 @@ def greeting
         if user_response == 'Y'.downcase
             puts "\nPlease enter username"
             user_input = gets.chomp.downcase
-            $user = User.find_by username: user_input
-            if $user
+            if User.exists?(username: user_input)
+                $user = User.find_by(username: user_input)
                 break
             else
                 puts "\nUsername is not valid. Do you have an account? (Y/N)"
@@ -46,8 +46,8 @@ def create_account
         puts "Please enter your username"
         while true
             user_username = gets.chomp.downcase
-            if User.exists?(:username => user_username)
-                puts "\nThat username is already taken. Please enter new username."
+            if User.exists?(username: user_username)
+                puts "\nThat username is already taken. Please enter a new username."
             else 
                 puts "\nWhat is your name?"
                 user_name = gets.chomp
@@ -283,8 +283,11 @@ def stop_information(trip)
             if user_choice == '1'
                 puts "\nPlease enter a new rating (1-10) for this stop:"
                 change_rating = gets.chomp.to_i
+                if change_rating > 10
+                    puts "The rating can only be from 1-10. The rating has been set to 10."
+                end
                 puts "\nThe rating has changed from #{stop.rating} to #{change_rating}"
-                stop.update_column(:rating, change_rating)
+                stop.update_column(:rating, change_rating.clamp(1,10))
             elsif user_choice == '2'
                 puts "\nPlease enter a new description for this stop:"
                 change_desc = gets.chomp
