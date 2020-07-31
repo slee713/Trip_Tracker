@@ -70,9 +70,9 @@ def main_menu(user)
                                                                               
     ").blue
     puts Rainbow("                                                 WELCOME #{user.name.upcase}").black
-    puts " \n                                 1. Enter a new Trip" 
-    puts "                                 2. Find all of you trips and update any trip" 
-    puts "                                 3. Find all of the states/countries you have visited" 
+    puts " \n                                 1. Enter a New Trip" 
+    puts "                                 2. Find All of Your Trips and Update Any Trip" 
+    puts "                                 3. Find All of the States/Countries You Have Visited" 
     puts "                                 4. Delete Account" 
     puts "                                 5. Exit" 
     puts "\n                        Please select from the options above using numbers (1-5) as your input:"
@@ -147,28 +147,25 @@ def update_or_delete_trip(trips)
         if user_input == '1'
             system "clear"
             puts "Please choose a trip to view its information: (1 - #{trips.length})"
-            $user.list_trips
             trip=choose_trip(trips)
             puts "\nHere is the trip information for #{trip.name}"
             trip.view_information
         elsif user_input == '2'
             system "clear"
             puts "Please choose a trip to view all its Stops: (1 - #{trips.length})"
-            $user.list_trips
             trip = choose_trip(trips)
             puts "\nHere are all the stops for your trip #{trip.name}"
             trip.stop_information
         elsif user_input == '3'
             system "clear"
             puts "Please choose a trip to update: (1 - #{trips.length})"
-            $user.list_trips
             trip = choose_trip(trips)
             update_trip(trip)
         elsif user_input == '4'
             system "clear"
             puts "Please choose a trip to delete: (1 - #{trips.length})"
-            $user.list_trips
             delete_trip_stops(trips)
+            go_back_to_menu?($user)
         elsif user_input == '5'
             system "clear"
             main_menu($user)
@@ -216,15 +213,25 @@ def delete_trip_stops(trips)
     Stop.where(trip_id: trip.id).delete_all 
     Trip.delete(trip.id)
     puts "Trip Deleted!"
-    main_menu($user)
 end
 
 def choose_trip(trips_array)
-    user_input = gets.chomp
-    trips_array[user_input.to_i-1]
+    while true
+        $user.list_trips
+        user_input = gets.chomp.to_i
+        if user_input > trips_array.length
+            system
+            puts "\nUser input #{user_input} is invalid. Please select a valid trip:\n"
+        else
+            trip = trips_array[user_input.to_i-1]
+            break
+        end
+    end
+    trip
 end
 
 def update_trip(trip)
+    puts "You selected #{trip.name} - #{trip.start_date}."
     while true
         puts "\nWhat would you like to edit? Please enter a number (1-5):"
         puts "1. Trip Name"
@@ -282,11 +289,16 @@ def stop_information(trip)
             user_choice = gets.chomp 
             if user_choice == '1'
                 puts "\nPlease enter a new rating (1-10) for this stop:"
+                while true
                 change_rating = gets.chomp.to_i
-                if change_rating > 10
+                    if change_rating <= 0
+                    puts "Invalid entry. Please enter a number from 1 to 10"
+                    elsif change_rating > 10
                     puts "The rating can only be from 1-10. The rating has been set to 10."
+                    break
+                    end
                 end
-                puts "\nThe rating has changed from #{stop.rating} to #{change_rating}"
+                puts "\nThe rating has changed from #{stop.rating} to #{change_rating.clamp(1,10)}"
                 stop.update_column(:rating, change_rating.clamp(1,10))
             elsif user_choice == '2'
                 puts "\nPlease enter a new description for this stop:"
@@ -343,7 +355,15 @@ end
 
 def create_stops(trip, location) 
     puts "\nHow would you rate this stop? (1-10)?"
-    user_rating = gets.chomp
+    while true
+        user_rating = gets.chomp.to_i
+        if user_rating <= 0
+            puts "Invalid entry. Please enter a number from 1 to 10"
+        elsif user_rating > 10 
+            puts "The rating can only be from 1-10. The rating has been set to 10."
+            break
+        end
+    end
     puts "\nPlease write a description for this stop."
     user_description = gets.chomp
     Stop.create(
