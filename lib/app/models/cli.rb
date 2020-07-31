@@ -24,14 +24,13 @@ def greeting
     while true
         user_response = gets.chomp.downcase
         if user_response == 'Y'.downcase
-            puts "Please enter username"
+            puts "\nPlease enter username"
             user_input = gets.chomp.downcase
             $user = User.find_by username: user_input
             if $user
                 break
             else
                 puts "\nUsername is not valid. Do you have an account? (Y/N)"
-                true
             end
         elsif user_response == 'N'.downcase
             create_account
@@ -237,20 +236,20 @@ def update_trip(trip)
         if user_input == '1'
             puts "Please enter a new name for #{trip.name}."
             new_name = gets.chomp
-            puts "The name has changed from #{trip.name} to #{new_name}."
+            puts "\nThe name has changed from #{trip.name} to #{new_name}."
             trip.update_column(:name, new_name)
         elsif user_input == '2'
             puts "Please enter a new trasnportation method for #{trip.name}."
             new_method = gets.chomp
-            puts "The transportation method has changed from #{trip.transportation} to #{new_method}."
+            puts "\nThe transportation method has changed from #{trip.transportation} to #{new_method}."
             trip.update_column(:transportation, new_method)
         elsif user_input == '3' 
             puts "Please enter start date (YYYY/MM/DD) for #{trip.name}."
             new_date = gets.chomp
             date = Date.parse(new_date)
-            puts "The start date has changed from #{trip.start_date} to #{date}."
+            puts "\nThe start date has changed from #{trip.start_date} to #{date}."
             date = Date.parse(new_date)
-            puts "How many days did you spend on the trip #{trip.name}?"
+            puts "\nHow many days did you spend on the trip #{trip.name}?"
             duration = gets.chomp.to_i
             trip.update_column(:start_date, date)
             trip.update_column(:end_date, date+duration)
@@ -260,7 +259,7 @@ def update_trip(trip)
             system "clear"
             main_menu($user)
         else
-            puts "Invalid Response. Please enter a number from 1-5."
+            puts "\nInvalid Response. Please enter a number from 1-5."
         end
     end
 end
@@ -271,7 +270,7 @@ def stop_information(trip)
     puts "\nWhich stop would you like to edit?"
     trip.list_stops_by_location_name
     puts "#{stops.length+1}. Add a stop"
-    puts "Please choose a option: (1 - #{stops.length+1})"
+    puts "\nPlease choose a option: (1 - #{stops.length+1})"
     user_input = gets.chomp
     stop = stops[user_input.to_i-1]
     if user_input.to_i <= stops.length && user_input.to_i>0
@@ -282,27 +281,27 @@ def stop_information(trip)
             puts "3. Go back to the main menu"
             user_choice = gets.chomp 
             if user_choice == '1'
-                puts "Please enter a new rating (1-10) for this stop:"
+                puts "\nPlease enter a new rating (1-10) for this stop:"
                 change_rating = gets.chomp.to_i
-                puts "The rating has changed from #{stop.rating} to #{change_rating}"
+                puts "\nThe rating has changed from #{stop.rating} to #{change_rating}"
                 stop.update_column(:rating, change_rating)
             elsif user_choice == '2'
-                puts "Please enter a new description for this stop:"
+                puts "\nPlease enter a new description for this stop:"
                 change_desc = gets.chomp
-                puts "You have updated the description to:"
+                puts "\nYou have updated the description to:"
                 puts "      #{change_desc}"
                 stop.update_column(:description, change_desc)
             elsif user_choice == '3'
                 system "clear"
                 main_menu($user)
             else
-                puts "Invalid Response. Please try again."
+                puts "\nInvalid Response. Please try again."
             end
         end
     elsif user_input.to_i == stops.length+1
         create_locations(trip)
     else 
-        puts "Invalid Response. Please choose a valid stop."
+        puts "\nInvalid Response. Please choose a valid stop."
         stop_information(trip)
     end
 
@@ -319,7 +318,7 @@ end
 def create_locations(new_trip)
     puts "\nWhich city did you visit on this trip?"
         location_name = gets.chomp
-    puts "Which state or country was it in?"
+    puts "\nWhich state or country was it in?"
         location_statecountry = gets.chomp
         existing_location = 
             Location.find_by(
